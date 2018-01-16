@@ -74,7 +74,7 @@ public class Bouncer extends Game {
 
 
 	public void bounceBlocks(double elapsedTime) {
-		this.X_SPEED = -this.X_SPEED;
+		this.X_SPEED = -MOVER_SPEED;
 		this.Y_SPEED = -this.Y_SPEED;
 		this.DISPLAY.setX(X + this.X_SPEED * elapsedTime);
 		this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);

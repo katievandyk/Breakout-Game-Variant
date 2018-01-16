@@ -7,9 +7,10 @@ public class HitBlock extends Game {
 	int numhits;
 	int X;
 	int Y;
+	String powerUp;
 
 	// Constructor
-	public HitBlock (int x, int y, int nHits, String BLOCK_IMAGE){
+	public HitBlock (int x, int y, int nHits, String BLOCK_IMAGE, String powerUp){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BLOCK_IMAGE));
 		this.DISPLAY = new ImageView(image);
 		this.DISPLAY.setX(x);
@@ -17,6 +18,7 @@ public class HitBlock extends Game {
 		this.numhits = nHits;
 		this.X = x;
 		this.Y = y;
+		this.powerUp = powerUp;
 
 	}
 
@@ -33,5 +35,14 @@ public class HitBlock extends Game {
 		return false;
 	}
 
+	/*	Bouncer newBouncer = new Bouncer(MOVER_SPEED);
+
+
+			newBouncer.reset(SIZE, SIZE);
+			System.out.println(newBouncer.Y);
+			root.getChildren().add(newBouncer.DISPLAY); */
 }
+
+
+
 
