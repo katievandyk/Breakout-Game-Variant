@@ -55,9 +55,26 @@ public class Bouncer extends Game {
 			this.Y_SPEED = -this.Y_SPEED;
 		}
 		
-		// Bounces against blocks
-		
-		
+		this.DISPLAY.setX(X + this.X_SPEED * elapsedTime);
+		this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);
+	}
+	
+	public boolean intersect(Block block) {
+		double X = block.DISPLAY.getX();
+		double Y = block.DISPLAY.getY();
+		double bX = this.DISPLAY.getX();
+		double bY = this.DISPLAY.getY();
+		if(bX >= X && bX <= (X + 50) && bY >= Y && bY <= (Y + 20)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void bounceBlocks(double elapsedTime) {
+
+		this.X_SPEED = -this.X_SPEED;
+		this.Y_SPEED = -this.Y_SPEED;
+
 		this.DISPLAY.setX(X + this.X_SPEED * elapsedTime);
 		this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);
 	}

@@ -99,30 +99,22 @@ private void step (double elapsedTime) {
 	int x = 50;
 	int y = 20;
 	for(int i=0; i < blocks.length; i++) {
-		if(intersect(blocks[i], myBouncer) && blocks[i].numhits == 1) {
+		if(myBouncer.intersect(blocks[i]) && blocks[i].numhits == 1) {
 			root.getChildren().remove(blocks[i].DISPLAY);
 		}
-		else if(intersect(blocks[i], myBouncer)) {			
+		else if(myBouncer.intersect(blocks[i])) {			
 			int numHits = blocks[i].numhits - 1;
 			int x1 = blocks[i].X;
 			int y1 = blocks[i].Y;
 			root.getChildren().remove(blocks[i].DISPLAY);
 			blocks[i] = new Block(x1,y1,numHits, BLOCK2_IMAGE);
 			root.getChildren().add(blocks[i].DISPLAY);
+			myBouncer.bounceBlocks(elapsedTime);
 		}
 	}
 }
 
-public boolean intersect(Block block, Bouncer bouncer) {
-	double X = block.DISPLAY.getX();
-	double Y = block.DISPLAY.getY();
-	double bX = bouncer.DISPLAY.getX();
-	double bY = bouncer.DISPLAY.getY();
-	if(bX >= X && bX <= (X + 50) && bY >= Y && bY <= (Y + 20)) {
-		return true;
-	}
-	return false;
-}
+
 
 // What to do each time a key is pressed
 private void handleKeyInput (KeyCode code) {
