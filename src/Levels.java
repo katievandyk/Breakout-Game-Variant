@@ -16,7 +16,6 @@ public class Levels extends Game{
 				blocks[i][1] = blocks[i-1][1] + BLOCK_HEIGHT;
 			}
 		}
-		
 		return blocks;	
 	}
 	

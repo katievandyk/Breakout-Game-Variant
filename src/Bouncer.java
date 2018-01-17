@@ -25,7 +25,7 @@ public class Bouncer extends Game {
 	public Bouncer (int speed){
 		this.X_SPEED = speed;
 		this.Y_SPEED = speed;
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BOUNCER_IMG));
 		this.DISPLAY = new ImageView(image);
 	}
 

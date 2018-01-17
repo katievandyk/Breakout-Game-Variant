@@ -9,7 +9,7 @@ public class Life extends Game {
 	
 	// Constructor 
 	public Life(int x, int y) {
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(LIFE_IMAGE));
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream(LIFE_IMG));
 		this.DISPLAY = new ImageView(image);
 		this.DISPLAY.setX(x);
 		this.DISPLAY.setY(y);

@@ -28,11 +28,12 @@ public class Game extends Application {
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	public static final Paint BACKGROUND = Color.BLACK;
-	public static final String BOUNCER_IMAGE = "ball.gif";
-	public static final String BLOCK_IMAGE = "brick1.gif";
-	public static final String BLOCK2_IMAGE = "brick2.gif";
-	public static final String LIFE_IMAGE = "laserpower.gif";
+	public static final String BOUNCER_IMG = "ball.gif";
+	public static final String BLOCK_IMG = "brick1.gif";
+	public static final String BLOCK2_IMG = "brick2.gif";
+	public static final String LIFE_IMG = "laserpower.gif";
 
+	// Block and paddle parameters
 	public static int BOUNCER_SPEED = 30;
 	public static double BOUNCER_RADIUS = 7.5;
 	public static final Paint PADDLE_COLOR = Color.PLUM;
@@ -43,17 +44,21 @@ public class Game extends Application {
 	public static final int MARGIN = 50;
 	public static final int MOVER_SPEED = 150;
 
+	public static int CURR_LEVEL = 1;
 
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
+	public static final String PADDLE_POWERUP = "biggerPaddle";
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
 	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
+	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
+	
 
 
 	private Scene myScene;
 	ArrayList<Bouncer> bouncers = new ArrayList<Bouncer>();
-	ArrayList<Life> lives = new ArrayList<Life>();
-	private Paddle myPaddle;
+	public ArrayList<Life> lives = new ArrayList<Life>();
+	protected Paddle myPaddle;
 	Group root = new Group();
 	HitBlock[] blocks;
 	ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
@@ -77,18 +82,19 @@ public class Game extends Application {
 		animation.play();
 	}
 
-	// Create the game's "scene": what shapes will be in the game and their starting properties
+	/**
+	 * Create the game's "scene": what shapes will be in the game and their starting properties
+	 */
 	private Scene Start(int width, int height, Paint background) {
 
 		Scene scene = new Scene(root, width, height, background);
+
+		// Initialize main bouncer
 		bouncers.add(new Bouncer (MOVER_SPEED));
-		myPaddle = new Paddle(width/2, height - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
+		bouncers.get(0).reset(width, height);
+		root.getChildren().add(bouncers.get(0).DISPLAY);
 
-		for(Bouncer bouncer : bouncers) {
-			root.getChildren().add(bouncer.DISPLAY);
-		}
-
-		root.getChildren().add(myPaddle.DISPLAY);
+		// Initialize toolbar (EVENTUALLY)
 		int x = MARGIN;
 		for(int i=0; i < NUM_LIVES; i++) {
 			Life l = new Life(x, SIZE - MARGIN);
@@ -97,69 +103,57 @@ public class Game extends Application {
 			root.getChildren().add(l.DISPLAY);
 		}
 
-		int coords[][]; 
-		for(Bouncer bouncer : bouncers)
-		{
-			bouncer.reset(width, height);
-		}
-
-
-		//coords = Levels.Level1();
-		coords = Levels.Level1();
-		blocks = new HitBlock[coords.length];
-		int numhits = 2;
-
-		for(int i=0; i < coords.length; i++) {
-			blocks[i] = new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMAGE, LIFE_POWERUP);
-			root.getChildren().add(blocks[i].DISPLAY);
-		}
-
+		// Begin levels
+		control();
 		scene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
+
 		return scene;
 	}
 
+	/**
+	 * What do to in each increment of time 
+	 */
 	private void step (double elapsedTime) {
+		// Check if bouncer in bounds
 		for(Bouncer bouncer : bouncers){
 			bouncer.bounce(elapsedTime, myPaddle);
+			// Multiple bouncers, remove one
 			if(bouncer.Y >= SIZE && bouncers.size() > 1){
 				bouncers.remove(bouncer);
 			}
+			// Lose last bouncer, mult. lives
 			else if(bouncer.Y >= SIZE && lives.size() > 1) {				
 				NUM_LIVES--;
 				bouncers.get(0).reset(SIZE, SIZE);
 				root.getChildren().remove(lives.get(NUM_LIVES).DISPLAY);
+				lives.remove(NUM_LIVES);
 			}
+			// Lose last bouncer, last life
 			else if(bouncer.Y >= SIZE) {
-				// Add code here
+				root.getChildren().clear();
+				CURR_LEVEL++;
+				control();
+				bouncers.get(0).reset(SIZE, SIZE);
+				root.getChildren().add(bouncers.get(0).DISPLAY);
 			}
 		}
 
-
-		//MOVE POWER-UPS DOWN THE SCREEN
-		for(int i=0; i < powerUps.size(); i++) {
-			powerUps.get(i).move(elapsedTime);
-			if(powerUps.get(i).intersect(myPaddle)) {
-				if(powerUps.get(i).TYPE.equals(BALL_POWERUP)){
-					Bouncer newB = new Bouncer(MOVER_SPEED);
-					newB.reset(SIZE, SIZE);
-					root.getChildren().add(newB.DISPLAY);
-					bouncers.add(newB);
-				}
-				else if(powerUps.get(i).TYPE.equals(LIFE_POWERUP)) {
-					Life li = new Life(MARGIN + 20 * NUM_LIVES, SIZE - MARGIN);
-					lives.add(li);
-					NUM_LIVES++;
-					root.getChildren().add(li.DISPLAY);
-				}
-
+		// Move power-ups down screen
+		for(PowerUp powerUp : powerUps) {
+			powerUp.move(elapsedTime);
+			if(powerUp.intersect(myPaddle)) {
+				root.getChildren().remove(powerUp.DISPLAY);
+				createPowerUp(elapsedTime, powerUp);
 			}
 		}
 
+		// Kill blocks as appropriate
 		for(int i=0; i < blocks.length; i++) {
 			killBlocks(elapsedTime);
 		}
 
 	}
+
 
 	private void killBlocks(double elapsedTime) {
 		for(int i=0; i < blocks.length; i++) {
@@ -178,6 +172,12 @@ public class Game extends Application {
 						p.reset(blocks[i].X, blocks[i].Y);
 						root.getChildren().add(p.DISPLAY);
 					}
+					else if(blocks[i].powerUp.equals(PADDLE_POWERUP)) {
+						PowerUp p = new PowerUp(PADDLE_POWERUP);
+						powerUps.add(p);
+						p.reset(blocks[i].X, blocks[i].Y);
+						root.getChildren().add(p.DISPLAY);
+					}
 					bouncer.bounceBlocks(elapsedTime);
 				}
 				else if(blocks[i].intersect(bouncer)) {	
@@ -185,7 +185,7 @@ public class Game extends Application {
 					int x = blocks[i].X;
 					int y = blocks[i].Y;
 					root.getChildren().remove(blocks[i].DISPLAY);
-					blocks[i] = new HitBlock(x, y, nh, BLOCK2_IMAGE, LIFE_POWERUP);
+					blocks[i] = new HitBlock(x, y, nh, BLOCK2_IMG, PADDLE_POWERUP);
 					root.getChildren().add(blocks[i].DISPLAY);
 					bouncer.bounceBlocks(elapsedTime);
 				}
@@ -193,6 +193,45 @@ public class Game extends Application {
 		}
 	}
 
+
+	public int[][] control(){
+		int[][] coords;
+		if(CURR_LEVEL == 1) coords = Levels.Level1();
+		else if(CURR_LEVEL == 2) coords = Levels.Level2();
+		else coords = Levels.Level1();
+
+		blocks = new HitBlock[coords.length];
+		int numhits = 2;
+		for(int i=0; i < coords.length; i++) {
+			blocks[i] = new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMG, LIFE_POWERUP);
+			root.getChildren().add(blocks[i].DISPLAY);
+		}
+
+		myPaddle = new Paddle(SIZE/2, SIZE - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
+		root.getChildren().add(myPaddle.DISPLAY);
+
+		return coords;
+	}
+	
+	public void createPowerUp(double elapsedTime, PowerUp p) {
+		if(p.TYPE.equals(BALL_POWERUP)){
+			Bouncer newB = new Bouncer(MOVER_SPEED);
+			newB.reset(SIZE, SIZE);
+			root.getChildren().add(newB.DISPLAY);
+			bouncers.add(newB);
+		}
+		else if(p.TYPE.equals(LIFE_POWERUP)) {
+			Life li = new Life(MARGIN + 20 * NUM_LIVES, SIZE - MARGIN);
+			NUM_LIVES++;
+			root.getChildren().add(li.DISPLAY);
+			lives.add(li);
+		}
+		else if(p.TYPE.equals(PADDLE_POWERUP)) {
+			root.getChildren().remove(myPaddle.DISPLAY);
+			myPaddle = new Paddle(SIZE/2, SIZE - 100, 2*PADDLE_WIDTH, PADDLE_HEIGHT);
+			root.getChildren().add(myPaddle.DISPLAY);
+		}
+	}
 
 	/**
 	 * Start the program.

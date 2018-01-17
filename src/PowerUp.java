@@ -8,8 +8,6 @@ public class PowerUp extends Game{
 	double X;
 	double Y;
 
-
-
 	public PowerUp(String type){
 		this.TYPE = type;
 		if(type.equals("newBall")) {
@@ -18,6 +16,10 @@ public class PowerUp extends Game{
 		}
 		else if(type.equals("newLife")) {
 			Image image = new Image(getClass().getClassLoader().getResourceAsStream(LIFE_POWERUP_IMG));
+			this.DISPLAY = new ImageView(image);
+		}
+		else if(type.equals("biggerPaddle")) {
+			Image image = new Image(getClass().getClassLoader().getResourceAsStream(PADDLE_POWERUP_IMG));
 			this.DISPLAY = new ImageView(image);
 		}
 
@@ -42,7 +44,6 @@ public class PowerUp extends Game{
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
 		if(bX >= X && bX <= (X + PADDLE_WIDTH) && bY == Y) {
-			root.getChildren().remove(this.DISPLAY);
 			return true;
 		}
 		return false;
