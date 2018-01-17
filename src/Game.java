@@ -3,7 +3,9 @@ import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +22,7 @@ import javafx.util.Duration;
 public class Game extends Application {
 
 	public static final String TITLE = "Breakout";
+	public static int NUM_LIVES = 3;
 	public static final int SIZE = 600;
 	public static final int FRAMES_PER_SECOND = 60;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -28,6 +31,7 @@ public class Game extends Application {
 	public static final String BOUNCER_IMAGE = "ball.gif";
 	public static final String BLOCK_IMAGE = "brick1.gif";
 	public static final String BLOCK2_IMAGE = "brick2.gif";
+	public static final String LIFE_IMAGE = "laserpower.gif";
 
 	public static int BOUNCER_SPEED = 30;
 	public static double BOUNCER_RADIUS = 7.5;
@@ -36,18 +40,21 @@ public class Game extends Application {
 	public static final int PADDLE_HEIGHT = 25;
 	public static final int BLOCK_WIDTH = 70;
 	public static final int BLOCK_HEIGHT = 20;
-	public static final int BLOCK_MARGIN = 50;
+	public static final int MARGIN = 50;
 	public static final int MOVER_SPEED = 150;
 
 
 	public static final String BALL_POWERUP = "newBall";
+	public static final String LIFE_POWERUP = "newLife";
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
+	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
 
 
 	private Scene myScene;
 	ArrayList<Bouncer> bouncers = new ArrayList<Bouncer>();
+	ArrayList<Life> lives = new ArrayList<Life>();
 	private Paddle myPaddle;
-	static Group root = new Group();
+	Group root = new Group();
 	HitBlock[] blocks;
 	ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
 
@@ -82,6 +89,13 @@ public class Game extends Application {
 		}
 
 		root.getChildren().add(myPaddle.DISPLAY);
+		int x = MARGIN;
+		for(int i=0; i < NUM_LIVES; i++) {
+			Life l = new Life(x, SIZE - MARGIN);
+			x += 20;
+			lives.add(l);
+			root.getChildren().add(l.DISPLAY);
+		}
 
 		int coords[][]; 
 		for(Bouncer bouncer : bouncers)
@@ -96,7 +110,7 @@ public class Game extends Application {
 		int numhits = 2;
 
 		for(int i=0; i < coords.length; i++) {
-			blocks[i] = new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMAGE, BALL_POWERUP);
+			blocks[i] = new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMAGE, LIFE_POWERUP);
 			root.getChildren().add(blocks[i].DISPLAY);
 		}
 
@@ -110,10 +124,16 @@ public class Game extends Application {
 			if(bouncer.Y >= SIZE && bouncers.size() > 1){
 				bouncers.remove(bouncer);
 			}
+			else if(bouncer.Y >= SIZE && lives.size() > 1) {				
+				NUM_LIVES--;
+				bouncers.get(0).reset(SIZE, SIZE);
+				root.getChildren().remove(lives.get(NUM_LIVES).DISPLAY);
+			}
 			else if(bouncer.Y >= SIZE) {
-				System.out.println("LOST");
+				// Add code here
 			}
 		}
+
 
 		//MOVE POWER-UPS DOWN THE SCREEN
 		for(int i=0; i < powerUps.size(); i++) {
@@ -124,6 +144,12 @@ public class Game extends Application {
 					newB.reset(SIZE, SIZE);
 					root.getChildren().add(newB.DISPLAY);
 					bouncers.add(newB);
+				}
+				else if(powerUps.get(i).TYPE.equals(LIFE_POWERUP)) {
+					Life li = new Life(MARGIN + 20 * NUM_LIVES, SIZE - MARGIN);
+					lives.add(li);
+					NUM_LIVES++;
+					root.getChildren().add(li.DISPLAY);
 				}
 
 			}
@@ -145,7 +171,12 @@ public class Game extends Application {
 						powerUps.add(p);
 						p.reset(blocks[i].X, blocks[i].Y);
 						root.getChildren().add(p.DISPLAY);
-
+					}
+					else if(blocks[i].powerUp.equals(LIFE_POWERUP)) {
+						PowerUp p = new PowerUp(LIFE_POWERUP);
+						powerUps.add(p);
+						p.reset(blocks[i].X, blocks[i].Y);
+						root.getChildren().add(p.DISPLAY);
 					}
 					bouncer.bounceBlocks(elapsedTime);
 				}
@@ -154,7 +185,7 @@ public class Game extends Application {
 					int x = blocks[i].X;
 					int y = blocks[i].Y;
 					root.getChildren().remove(blocks[i].DISPLAY);
-					blocks[i] = new HitBlock(x, y, nh, BLOCK2_IMAGE, BALL_POWERUP);
+					blocks[i] = new HitBlock(x, y, nh, BLOCK2_IMAGE, LIFE_POWERUP);
 					root.getChildren().add(blocks[i].DISPLAY);
 					bouncer.bounceBlocks(elapsedTime);
 				}

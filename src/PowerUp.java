@@ -16,6 +16,10 @@ public class PowerUp extends Game{
 			Image image = new Image(getClass().getClassLoader().getResourceAsStream(BALL_POWERUP_IMG));
 			this.DISPLAY = new ImageView(image);
 		}
+		else if(type.equals("newLife")) {
+			Image image = new Image(getClass().getClassLoader().getResourceAsStream(LIFE_POWERUP_IMG));
+			this.DISPLAY = new ImageView(image);
+		}
 
 		this.X = this.DISPLAY.getX();
 		this.Y = this.DISPLAY.getY();
@@ -33,13 +37,11 @@ public class PowerUp extends Game{
 	}
 
 	public boolean intersect(Paddle myPaddle) {
-
 		double X = myPaddle.DISPLAY.getX();
 		double Y = myPaddle.DISPLAY.getY();
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
 		if(bX >= X && bX <= (X + PADDLE_WIDTH) && bY == Y) {
-			System.out.println("TRUE");
 			root.getChildren().remove(this.DISPLAY);
 			return true;
 		}
