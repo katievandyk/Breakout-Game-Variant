@@ -5,13 +5,13 @@ public class HitBlock extends Game {
 
 	ImageView DISPLAY;
 	int numhits;
-	int X;
-	int Y;
+	double X;
+	double Y;
 	String powerUp;
 	boolean VALID;
 
 	// Constructor
-	public HitBlock (int x, int y, int nHits, String BLOCK_IMAGE, String powerUp){
+	public HitBlock (double x, double y, int nHits, String BLOCK_IMAGE, String powerUp){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BLOCK_IMAGE));
 		this.DISPLAY = new ImageView(image);
 		this.DISPLAY.setX(x);

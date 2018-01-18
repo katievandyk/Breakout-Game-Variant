@@ -32,28 +32,22 @@ public class Game extends Application {
 	public static final String BLOCK_IMG = "brick1.gif";
 	public static final String BLOCK2_IMG = "brick2.gif";
 	public static final String LIFE_IMG = "laserpower.gif";
-
-	// Block and paddle parameters
 	public static int BOUNCER_SPEED = 30;
 	public static double BOUNCER_RADIUS = 7.5;
 	public static final Paint PADDLE_COLOR = Color.PLUM;
 	public static final int PADDLE_WIDTH = 100;
 	public static final int PADDLE_HEIGHT = 25;
-	public static final int BLOCK_WIDTH = 70;
-	public static final int BLOCK_HEIGHT = 20;
+	public static final double BLOCK_WIDTH = 70;
+	public static final double BLOCK_HEIGHT = 20;
 	public static final int MARGIN = 50;
 	public static final int MOVER_SPEED = 150;
-
 	public static int CURR_LEVEL = 1;
-
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
 	public static final String PADDLE_POWERUP = "biggerPaddle";
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
 	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
-
-
 
 	private Scene myScene;
 	ArrayList<Bouncer> bouncers = new ArrayList<Bouncer>();
@@ -88,7 +82,7 @@ public class Game extends Application {
 	private Scene Start(int width, int height, Paint background) {
 
 		Scene scene = new Scene(root, width, height, background);
-
+		
 		// Initialize main bouncer
 		bouncers.add(new Bouncer (MOVER_SPEED));
 		bouncers.get(0).reset(width, height);
@@ -105,8 +99,6 @@ public class Game extends Application {
 
 		// Begin levels
 		control();
-
-		// Add paddle
 		myPaddle = new Paddle(SIZE/2, SIZE - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
 		root.getChildren().add(myPaddle.DISPLAY);
 		scene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
@@ -187,8 +179,8 @@ public class Game extends Application {
 				}
 				else if(block.intersect(bouncer) && block.VALID) {	
 					int nh = block.numhits -1;
-					int x = block.X;
-					int y = block.Y;
+					double x = block.X;
+					double y = block.Y;
 					root.getChildren().remove(block.DISPLAY);
 					block = new HitBlock(x, y, nh, BLOCK2_IMG, PADDLE_POWERUP);
 					root.getChildren().add(block.DISPLAY);
@@ -232,25 +224,46 @@ public class Game extends Application {
 		launch(args);
 	}
 
-	public int[][] control(){
-		int[][] coords = null;
+	public void control(){
+		double[][] coords = null;
 		if(CURR_LEVEL == 1) coords = Levels.Level1();
 		else if(CURR_LEVEL == 2) coords = Levels.Level2();
+		else if(CURR_LEVEL == 3) coords = Levels.Level3();
 		else if(CURR_LEVEL == -1){
 			root.getChildren().clear();	
 			Text t = new Text();
 			t.setFont(new Font(20));
 			t.setText("You win!");
 		}
+		else {
+			System.out.println("YOU WON");
+		}
 
-		//blocks.clear();
-		int numhits = 2;
+		int numhits = 1;
+		
+		if(CURR_LEVEL > 1) {
+			for(Bouncer bouncer : bouncers) {
+				root.getChildren().remove(bouncer.DISPLAY);
+			}
+			bouncers.clear();
+			Bouncer b = new Bouncer(MOVER_SPEED);
+			b.reset(SIZE, SIZE);
+			bouncers.add(b);
+			root.getChildren().add(b.DISPLAY);
+		}
+
+		blocks.clear();
 		for(int i=0; i < coords.length; i++) {
 			blocks.add(new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMG, BALL_POWERUP));
 			root.getChildren().add(blocks.get(i).DISPLAY);
 		}
-
-		return coords;
+	}
+	
+	public void startDisplay() {
+		Text t = new Text();
+		t.setFont(new Font(20));
+		t.setText("You win!");
+		root.getChildren().add(t);
 	}
 }
 
