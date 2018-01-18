@@ -8,6 +8,7 @@ public class HitBlock extends Game {
 	int X;
 	int Y;
 	String powerUp;
+	boolean VALID;
 
 	// Constructor
 	public HitBlock (int x, int y, int nHits, String BLOCK_IMAGE, String powerUp){
@@ -19,6 +20,7 @@ public class HitBlock extends Game {
 		this.X = x;
 		this.Y = y;
 		this.powerUp = powerUp;
+		this.VALID = true;
 
 	}
 
@@ -28,19 +30,11 @@ public class HitBlock extends Game {
 		double bX = bouncer.DISPLAY.getX();
 		double bY = bouncer.DISPLAY.getY();		
 
-		if(bX >= X - BOUNCER_RADIUS && bX <= (X + BLOCK_WIDTH - BOUNCER_RADIUS) && bY >= Y - BOUNCER_RADIUS && bY <= (Y + BLOCK_HEIGHT - BOUNCER_RADIUS)) {
+		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
 			return true;
 		}
-
 		return false;
 	}
-
-	/*	Bouncer newBouncer = new Bouncer(MOVER_SPEED);
-
-
-			newBouncer.reset(SIZE, SIZE);
-			System.out.println(newBouncer.Y);
-			root.getChildren().add(newBouncer.DISPLAY); */
 }
 
 

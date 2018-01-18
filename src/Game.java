@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -16,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.text.*;
 
 
 
@@ -52,7 +52,7 @@ public class Game extends Application {
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
 	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
-	
+
 
 
 	private Scene myScene;
@@ -60,7 +60,7 @@ public class Game extends Application {
 	public ArrayList<Life> lives = new ArrayList<Life>();
 	protected Paddle myPaddle;
 	Group root = new Group();
-	HitBlock[] blocks;
+	ArrayList<HitBlock> blocks = new ArrayList<HitBlock>();
 	ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
 
 	/**
@@ -105,6 +105,10 @@ public class Game extends Application {
 
 		// Begin levels
 		control();
+
+		// Add paddle
+		myPaddle = new Paddle(SIZE/2, SIZE - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
+		root.getChildren().add(myPaddle.DISPLAY);
 		scene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
 
 		return scene;
@@ -119,7 +123,7 @@ public class Game extends Application {
 			bouncer.bounce(elapsedTime, myPaddle);
 			// Multiple bouncers, remove one
 			if(bouncer.Y >= SIZE && bouncers.size() > 1){
-				bouncers.remove(bouncer);
+				root.getChildren().remove(bouncer.DISPLAY);
 			}
 			// Lose last bouncer, mult. lives
 			else if(bouncer.Y >= SIZE && lives.size() > 1) {				
@@ -130,11 +134,8 @@ public class Game extends Application {
 			}
 			// Lose last bouncer, last life
 			else if(bouncer.Y >= SIZE) {
-				root.getChildren().clear();
-				CURR_LEVEL++;
+				CURR_LEVEL = -1;
 				control();
-				bouncers.get(0).reset(SIZE, SIZE);
-				root.getChildren().add(bouncers.get(0).DISPLAY);
 			}
 		}
 
@@ -148,71 +149,55 @@ public class Game extends Application {
 		}
 
 		// Kill blocks as appropriate
-		for(int i=0; i < blocks.length; i++) {
+		for(int i=0; i < blocks.size(); i++) {
 			killBlocks(elapsedTime);
+			if(checkWin()) {
+				CURR_LEVEL++;
+				control();
+			}
 		}
 
 	}
 
-
 	private void killBlocks(double elapsedTime) {
-		for(int i=0; i < blocks.length; i++) {
+		for(HitBlock block : blocks) {
 			for(Bouncer bouncer : bouncers) {
-				if(blocks[i].intersect(bouncer) && blocks[i].numhits == 1) {
-					root.getChildren().remove(blocks[i].DISPLAY);
-					if(blocks[i].powerUp.equals(BALL_POWERUP)) {
+				if(block.intersect(bouncer) && block.numhits == 1 && block.VALID) {
+					block.VALID =false;
+					root.getChildren().remove(block.DISPLAY);
+					if(block.powerUp.equals(BALL_POWERUP)) {
 						PowerUp p = new PowerUp(BALL_POWERUP);
 						powerUps.add(p);
-						p.reset(blocks[i].X, blocks[i].Y);
+						p.reset(block.X, block.Y);
 						root.getChildren().add(p.DISPLAY);
 					}
-					else if(blocks[i].powerUp.equals(LIFE_POWERUP)) {
+					else if(block.powerUp.equals(LIFE_POWERUP)) {
 						PowerUp p = new PowerUp(LIFE_POWERUP);
 						powerUps.add(p);
-						p.reset(blocks[i].X, blocks[i].Y);
+						p.reset(block.X, block.Y);
 						root.getChildren().add(p.DISPLAY);
 					}
-					else if(blocks[i].powerUp.equals(PADDLE_POWERUP)) {
+					else if(block.powerUp.equals(PADDLE_POWERUP)) {
 						PowerUp p = new PowerUp(PADDLE_POWERUP);
 						powerUps.add(p);
-						p.reset(blocks[i].X, blocks[i].Y);
+						p.reset(block.X, block.Y);
 						root.getChildren().add(p.DISPLAY);
 					}
 					bouncer.bounceBlocks(elapsedTime);
 				}
-				else if(blocks[i].intersect(bouncer)) {	
-					int nh = blocks[i].numhits -1;
-					int x = blocks[i].X;
-					int y = blocks[i].Y;
-					root.getChildren().remove(blocks[i].DISPLAY);
-					blocks[i] = new HitBlock(x, y, nh, BLOCK2_IMG, PADDLE_POWERUP);
-					root.getChildren().add(blocks[i].DISPLAY);
+				else if(block.intersect(bouncer) && block.VALID) {	
+					int nh = block.numhits -1;
+					int x = block.X;
+					int y = block.Y;
+					root.getChildren().remove(block.DISPLAY);
+					block = new HitBlock(x, y, nh, BLOCK2_IMG, PADDLE_POWERUP);
+					root.getChildren().add(block.DISPLAY);
 					bouncer.bounceBlocks(elapsedTime);
 				}
 			}
 		}
 	}
 
-
-	public int[][] control(){
-		int[][] coords;
-		if(CURR_LEVEL == 1) coords = Levels.Level1();
-		else if(CURR_LEVEL == 2) coords = Levels.Level2();
-		else coords = Levels.Level1();
-
-		blocks = new HitBlock[coords.length];
-		int numhits = 2;
-		for(int i=0; i < coords.length; i++) {
-			blocks[i] = new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMG, LIFE_POWERUP);
-			root.getChildren().add(blocks[i].DISPLAY);
-		}
-
-		myPaddle = new Paddle(SIZE/2, SIZE - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
-		root.getChildren().add(myPaddle.DISPLAY);
-
-		return coords;
-	}
-	
 	public void createPowerUp(double elapsedTime, PowerUp p) {
 		if(p.TYPE.equals(BALL_POWERUP)){
 			Bouncer newB = new Bouncer(MOVER_SPEED);
@@ -233,11 +218,39 @@ public class Game extends Application {
 		}
 	}
 
+	public boolean checkWin() {
+		for(HitBlock block : blocks) {
+			if(block.VALID == true) return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Start the program.
 	 */
 	public static void main (String[] args) {
 		launch(args);
+	}
+
+	public int[][] control(){
+		int[][] coords = null;
+		if(CURR_LEVEL == 1) coords = Levels.Level1();
+		else if(CURR_LEVEL == 2) coords = Levels.Level2();
+		else if(CURR_LEVEL == -1){
+			root.getChildren().clear();	
+			Text t = new Text();
+			t.setFont(new Font(20));
+			t.setText("You win!");
+		}
+
+		//blocks.clear();
+		int numhits = 2;
+		for(int i=0; i < coords.length; i++) {
+			blocks.add(new HitBlock(coords[i][0], coords[i][1], numhits, BLOCK_IMG, BALL_POWERUP));
+			root.getChildren().add(blocks.get(i).DISPLAY);
+		}
+
+		return coords;
 	}
 }
 

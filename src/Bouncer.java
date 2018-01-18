@@ -20,6 +20,7 @@ public class Bouncer extends Game {
 	double X;
 	double Y;
 	ImageView DISPLAY;
+	boolean VALID;
 
 	// Constructor
 	public Bouncer (int speed){
@@ -27,6 +28,7 @@ public class Bouncer extends Game {
 		this.Y_SPEED = speed;
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BOUNCER_IMG));
 		this.DISPLAY = new ImageView(image);
+		this.VALID = true;
 	}
 
 	// Reset bouncer to center

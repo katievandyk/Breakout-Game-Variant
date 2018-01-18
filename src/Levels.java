@@ -27,9 +27,12 @@ public class Levels extends Game{
 		blocks[0][1] = SIZE / 2;
 		
 		return blocks;
-		
+	
 	}
 	
+	public static int[][] Level3(){
+		return null;
+	}
 	
 	
 }
