@@ -1,7 +1,7 @@
 public class LevelCtrl extends Driver {
 
 	public static void changeLevel() {
-		if(CURR_LEVEL == 1) coords = Levels.Level3();
+		if(CURR_LEVEL == 1) coords = Levels.Level1();
 		else if(CURR_LEVEL == 2) coords = Levels.Level2();
 		else if(CURR_LEVEL == 3) coords = Levels.Level3();
 		else if(CURR_LEVEL == -1){
