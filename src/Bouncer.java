@@ -84,21 +84,20 @@ public class Bouncer extends Driver {
 	}
 	
 	public void checkStatus() {
-		System.out.println(lives.size());
 		// Multiple bouncers, remove one
-		if(this.Y >= SIZE && bouncers.size() > 1){
+		if(this.DISPLAY.getY() >= SIZE && bouncers.size() > 1){
 			root.getChildren().remove(this.DISPLAY);
 			this.VALID = false;
 		}
 		// Lose last bouncer, mult. lives
-		else if(this.Y >= (SIZE - MARGIN) && lives.size() > 1) {				
+		else if(this.DISPLAY.getY() >= SIZE && lives.size() > 1) {				
 			NUM_LIVES--;
 			root.getChildren().remove(lives.get(NUM_LIVES).DISPLAY);
 			lives.remove(NUM_LIVES);
 			bouncers.get(0).reset(SIZE, SIZE);
 		}
 		// Lose last bouncer, last life
-		else if(this.Y >= (SIZE - MARGIN)) {
+		else if(this.DISPLAY.getY() >= SIZE) {
 			CURR_LEVEL = -1;
 			SceneCtrl.createLoseScreen();
 		}
