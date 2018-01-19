@@ -83,11 +83,14 @@ public class Driver extends Application {
 			powerUp.move(elapsedTime);
 			powerUp.checkStatus(elapsedTime);
 			if(powerUp.intersect(myPaddle)) remove.add(powerUp);
+			if(!powerUp.checkBounds()) remove.add(powerUp);
 		}
 		
 		for(PowerUp p : remove) {
+			root.getChildren().remove(p.DISPLAY);
 			powerUps.remove(p);
 		}
+		
 		// Kill blocks
 		HitBlock.killBlocks(elapsedTime);
 		BounceBlock.killBlocks(elapsedTime);
