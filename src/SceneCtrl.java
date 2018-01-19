@@ -2,12 +2,22 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 public class SceneCtrl extends Driver{
+
+	static String INSTRUCTIONS = "WELCOME TO BREAKOUT!";
+	static String LOSE = "YOU LOST:(";
+	static String WIN = "YOU WON!!:)";
 	
 	public static void createScene(Stage stage) {
 		myScene = new Scene(root, SIZE, SIZE);
@@ -16,6 +26,41 @@ public class SceneCtrl extends Driver{
 		stage.show();
 	}
 	
+	public static void createStartScreen() {
+		Text t = new Text(MARGIN, MARGIN, INSTRUCTIONS);
+		t.setFill(Color.BLACK);
+		t.setFont(Font.font(java.awt.Font.SERIF, 25));
+		root.getChildren().add(t);
+		myScene.setOnKeyPressed(f -> checkKey(f.getCode()));
+		
+	}
+	
+	public static void createLoseScreen() {
+		root.getChildren().clear();
+		Text t = new Text(MARGIN, MARGIN, LOSE);
+		t.setFill(Color.BLACK);
+		t.setFont(Font.font(java.awt.Font.SERIF, 25));
+		root.getChildren().add(t);
+	}
+	public static void createWinScreen() {
+		root.getChildren().clear();
+		Text t = new Text(MARGIN, MARGIN, WIN);
+		t.setFill(Color.BLACK);
+		t.setFont(Font.font(java.awt.Font.SERIF, 25));
+		root.getChildren().add(t);
+		
+	}
+	
+	private static void checkKey(KeyCode f) {
+		if(f == KeyCode.ENTER) {
+			root.getChildren().clear();
+			CURR_LEVEL++;
+			updateLevel();
+			addObjects();
+			myScene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
+		}
+	}
+
 	public static void setBackgroundImage(javafx.scene.image.Image image) {
 		ImagePattern pattern = new ImagePattern(image);
 		myScene.setFill(pattern); 
@@ -48,7 +93,5 @@ public class SceneCtrl extends Driver{
 		root.getChildren().add(myPaddle.DISPLAY);
 	}
 	
-	
-
 
 }

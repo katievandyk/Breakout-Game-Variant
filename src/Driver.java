@@ -35,7 +35,7 @@ public class Driver extends Application {
 	public static final double BOUNCE_BLOCK = 20;
 	public static final int MARGIN = 50;
 	public static final int MOVER_SPEED = 150;
-	public static int CURR_LEVEL = 1;
+	public static int CURR_LEVEL = 0;
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
 	public static final String PADDLE_POWERUP = "biggerPaddle";
@@ -60,11 +60,9 @@ public class Driver extends Application {
 	@Override
 	public void start (Stage stage) {
 		SceneCtrl.createScene(stage);	
-		SceneCtrl.addObjects();
 		SceneCtrl.setBackgroundImage(Image(BACKGROUND_IMG));
 		SceneCtrl.playAnimation();
-		myScene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
-		updateLevel();
+		SceneCtrl.createStartScreen();
 	}
 	
 	/**
@@ -113,8 +111,8 @@ public class Driver extends Application {
 	 * Update level
 	 */
 	public static void updateLevel() {
-		Control.changeLevel();
-		Control.clearLevel();
+		LevelCtrl.changeLevel();
+		LevelCtrl.clearLevel();
 	}
 	
 	/**
