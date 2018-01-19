@@ -3,7 +3,7 @@ public class Levels extends Driver{
 	
 	static double[][] blocks;
 	
-	public static double[][] Level1(){
+	public static double[][] HitBlocksLevel1(){
 		blocks = new double[28][2];
 		blocks[0][0] = MARGIN;
 		blocks[0][1] = MARGIN;
@@ -19,7 +19,7 @@ public class Levels extends Driver{
 		return blocks;	
 	}
 	
-	public static double[][] Level2(){
+	public static double[][] HitBlocksLevel2(){
 		double MULTIPLIER_X = .75;
 		double MULTIPLIER_Y = .50;
 		blocks = new double[17][2];
@@ -37,15 +37,12 @@ public class Levels extends Driver{
 				MULTIPLIER_Y = - MULTIPLIER_Y;
 			}
 		}
-		
-		blocks[16][0] = (SIZE - BLOCK_WIDTH) / 2 ;
-		blocks[16][1] = SIZE / 4;
 
 		return blocks;
 	
 	}
 	
-	public static double[][] Level3(){
+	public static double[][] HitBlocksLevel3(){
 		double MULTIPLIER_X = .5;
 		double MULTIPLIER_Y = .5;
 		int num = 5;
@@ -54,7 +51,6 @@ public class Levels extends Driver{
 		blocks[0][0] = (SIZE - BLOCK_WIDTH)/2;
 		blocks[0][1] = (SIZE - BLOCK_HEIGHT)/4;
 		
-		// Right half of snowflake
 		int i;
 		for(i=1; i < num; i++) {
 			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH * MULTIPLIER_X;
@@ -83,6 +79,21 @@ public class Levels extends Driver{
 
 		return blocks;
 	}
+	
+	public static double[][] BounceBlocksLevel3(){
+
+
+		return blocks;
+	}
+	
+	public static double[][] BounceBlocksLevel2(){
+		blocks = new double[1][2];
+		blocks[0][0] = (SIZE - BLOCK_WIDTH) / 2 ;
+		blocks[0][1] = SIZE / 4;
+
+		return blocks;
+	}
+	
 	
 	
 }

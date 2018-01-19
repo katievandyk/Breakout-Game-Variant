@@ -1,17 +1,5 @@
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Bouncer extends Driver {
 
@@ -69,6 +57,17 @@ public class Bouncer extends Driver {
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
 		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean intersect(BounceBlock block) {
+		double X = block.DISPLAY.getX();
+		double Y = block.DISPLAY.getY();
+		double bX = this.DISPLAY.getX();
+		double bY = this.DISPLAY.getY();
+		if(bX >= X && bX <= (X + BLOCK_HEIGHT) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
 			return true;
 		}
 		return false;

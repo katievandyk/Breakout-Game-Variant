@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -35,13 +37,17 @@ public class HitBlock extends Driver {
 		}
 		return false;
 	}
-	
+
 	public static void killBlocks(double elapsedTime) {
-		for(HitBlock block : blocks) {
+		ArrayList<HitBlock> save = new ArrayList<HitBlock>();
+		for(HitBlock block : hit_blocks) {
 			for(Bouncer bouncer : bouncers) {
 				if(block.intersect(bouncer) && block.numhits == 1 && block.VALID) {
-					block.VALID =false;
+					block.VALID = false;
 					root.getChildren().remove(block.DISPLAY);
+					System.out.println("HERE");
+					NUM_POINTS++;
+					SceneCtrl.updatePointsText();
 					if(block.powerUp.equals(BALL_POWERUP)) {
 						PowerUp p = new PowerUp(BALL_POWERUP);
 						powerUps.add(p);
@@ -67,14 +73,20 @@ public class HitBlock extends Driver {
 					double x = block.X;
 					double y = block.Y;
 					root.getChildren().remove(block.DISPLAY);
-					block = new HitBlock(x, y, nh, BLOCK2_IMG, PADDLE_POWERUP);
+					block.VALID = false; 
+					block = new HitBlock(x, y, nh, BLOCK_IMG, PADDLE_POWERUP);
+					save.add(block);
 					root.getChildren().add(block.DISPLAY);
 					bouncer.bounceBlocks(elapsedTime);
 				}
 			}
 		}
+		for(HitBlock newBlock : save) {
+			hit_blocks.add(newBlock);
+		}
 	}
 }
+
 
 
 

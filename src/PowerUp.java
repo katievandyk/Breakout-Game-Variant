@@ -73,7 +73,7 @@ public class PowerUp extends Driver{
 		}
 		else if(p.TYPE.equals(PADDLE_POWERUP)) {
 			root.getChildren().remove(myPaddle.DISPLAY);
-			myPaddle = new Paddle(SIZE/2, SIZE - 100, 2*PADDLE_WIDTH, PADDLE_HEIGHT);
+			myPaddle.Grow(myPaddle.DISPLAY.getX(), myPaddle.DISPLAY.getY(), myPaddle.WIDTH, myPaddle.HEIGHT);
 			root.getChildren().add(myPaddle.DISPLAY);
 		}
 	}

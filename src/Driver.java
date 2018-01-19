@@ -7,21 +7,21 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class Driver extends Application {
 
 	public static final String TITLE = "Breakout";
 	public static int NUM_LIVES = 3;
+	public static int NUM_POINTS = 0;
+	public static Text NUM_POINTS_TXT;
 	public static final int SIZE = 600;
 	public static final int FRAMES_PER_SECOND = 60;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	public static final Paint BACKGROUND = Color.BLACK;
 	public static final String BOUNCER_IMG = "ball.gif";
-	public static final String BOUNCEBLOCK_IMG = "squarebrick.gif";
+	public static final String BOUNCEBLOCK_IMG = "brick3.gif";
 	public static final String BLOCK_IMG = "brick1.gif";
 	public static final String BLOCK2_IMG = "brick2.gif";
 	public static final String LIFE_IMG = "laserpower.gif";
@@ -36,6 +36,7 @@ public class Driver extends Application {
 	public static final int MARGIN = 50;
 	public static final int MOVER_SPEED = 150;
 	public static int CURR_LEVEL = 0;
+	public static Text CURR_LEVEL_TXT;
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
 	public static final String PADDLE_POWERUP = "biggerPaddle";
@@ -50,9 +51,11 @@ public class Driver extends Application {
 	static ArrayList<Life> lives = new ArrayList<Life>();
 	protected static Paddle myPaddle;
 	static Group root = new Group();
-	static ArrayList<HitBlock> blocks = new ArrayList<HitBlock>();
+	static ArrayList<HitBlock> hit_blocks = new ArrayList<HitBlock>();
+	static ArrayList<BounceBlock> bounce_blocks = new ArrayList<BounceBlock>();
 	static ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
-	static double[][] coords = null;
+	static double[][] hit_coords = null;
+	static double[][] bounce_coords = null;
 
 	/**
 	 * Initialize what will be displayed and how it will be updated.
@@ -64,12 +67,12 @@ public class Driver extends Application {
 		SceneCtrl.playAnimation();
 		SceneCtrl.createStartScreen();
 	}
-	
+
 	/**
 	 * What do to in each increment of time 
 	 */
 	public static void step (double elapsedTime) {
-		// Check if bouncer in bounds
+		// Move bouncer, determine intersections
 		for(Bouncer bouncer : bouncers){
 			bouncer.bounce(elapsedTime, myPaddle);
 			bouncer.checkStatus();
@@ -79,26 +82,27 @@ public class Driver extends Application {
 			powerUp.move(elapsedTime);
 			powerUp.checkStatus(elapsedTime);
 		}
-		// Kill blocks as appropriate
-		for(int i=0; i < blocks.size(); i++) {
-			HitBlock.killBlocks(elapsedTime);
-			if(Win()) {
-				CURR_LEVEL++;
-				updateLevel();
-			}
+		// Kill blocks
+		HitBlock.killBlocks(elapsedTime);
+		BounceBlock.killBlocks(elapsedTime);
+		if(Win() && hit_blocks.size() > 0) {
+			CURR_LEVEL++;
+			SceneCtrl.updateLevelText();
+			updateLevel();
 		}
 	}
-	
+
+
 	/**
 	 * Check for win
 	 */
 	public static boolean Win() {
-		for(HitBlock block : blocks) {
+		for(HitBlock block : hit_blocks) {
 			if(block.VALID == true) return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Convert string to image
 	 */
@@ -106,15 +110,16 @@ public class Driver extends Application {
 		Image myImage = new Image(getClass().getClassLoader().getResourceAsStream(img));
 		return myImage;
 	}
-	
+
 	/**
 	 * Update level
 	 */
 	public static void updateLevel() {
 		LevelCtrl.changeLevel();
 		LevelCtrl.clearLevel();
+		LevelCtrl.makeBlocks();
 	}
-	
+
 	/**
 	 * Start the program.
 	 */
