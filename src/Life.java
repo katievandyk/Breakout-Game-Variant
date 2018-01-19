@@ -1,7 +1,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Life extends Game {
+public class Life extends Driver {
 	
 	ImageView DISPLAY;
 	double X;

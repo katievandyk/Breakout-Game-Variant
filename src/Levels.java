@@ -1,5 +1,5 @@
 
-public class Levels extends Game{
+public class Levels extends Driver{
 	
 	static double[][] blocks;
 	
@@ -80,9 +80,6 @@ public class Levels extends Game{
 			blocks[i+j][0] = SIZE - BLOCK_WIDTH - blocks[j][0];
 			blocks[i+j][1] = blocks[j][1];
 		}
-
-
-
 
 		return blocks;
 	}

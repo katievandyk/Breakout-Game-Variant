@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Paddle extends Game {
+public class Paddle extends Driver {
 	
 	Rectangle DISPLAY;
 	double X; 

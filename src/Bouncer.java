@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Bouncer extends Game {
+public class Bouncer extends Driver {
 
 	double X_SPEED;
 	double Y_SPEED; 
@@ -76,10 +76,32 @@ public class Bouncer extends Game {
 
 
 	public void bounceBlocks(double elapsedTime) {
-		this.X_SPEED = -MOVER_SPEED;
-		this.Y_SPEED = -this.Y_SPEED;
-		this.DISPLAY.setX(X + this.X_SPEED * elapsedTime);
-		this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);
+		if(this.VALID) {
+			this.X_SPEED = -MOVER_SPEED;
+			this.Y_SPEED = -this.Y_SPEED;
+			this.DISPLAY.setX(X + this.X_SPEED * elapsedTime);
+			this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);
+		}
+	}
+	
+	public void checkStatus() {
+		// Multiple bouncers, remove one
+		if(this.Y >= SIZE && bouncers.size() > 1){
+			root.getChildren().remove(this.DISPLAY);
+			this.VALID = false;
+		}
+		// Lose last bouncer, mult. lives
+		else if(this.Y >= SIZE && lives.size() > 1) {				
+			NUM_LIVES--;
+			bouncers.get(0).reset(SIZE, SIZE);
+			root.getChildren().remove(lives.get(NUM_LIVES).DISPLAY);
+			lives.remove(NUM_LIVES);
+		}
+		// Lose last bouncer, last life
+		else if(this.Y >= SIZE) {
+			CURR_LEVEL = -1;
+			updateLevel();
+		}
 	}
 
 }

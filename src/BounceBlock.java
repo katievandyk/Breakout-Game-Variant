@@ -1,7 +1,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class BounceBlock extends Game {
+public class BounceBlock extends Driver {
 
 	ImageView DISPLAY;
 	int numhits;
@@ -16,6 +16,17 @@ public class BounceBlock extends Game {
 		this.X = x;
 		this.Y = y;
 	}
+	
+	public boolean intersect(Bouncer bouncer) {
+		double X = this.DISPLAY.getX();
+		double Y = this.DISPLAY.getY();
+		double bX = bouncer.DISPLAY.getX();
+		double bY = bouncer.DISPLAY.getY();		
 
+		if(bX >= X && bX <= (X + BOUNCE_BLOCK) && bY >= Y && bY <= (Y + BOUNCE_BLOCK)) {
+			return true;
+		}
+		return false;
+	}
 
 }

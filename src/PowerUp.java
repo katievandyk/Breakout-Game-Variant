@@ -1,7 +1,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class PowerUp extends Game{
+public class PowerUp extends Driver{
 
 	String TYPE;
 	ImageView DISPLAY;
@@ -27,6 +27,14 @@ public class PowerUp extends Game{
 		this.Y = this.DISPLAY.getY();
 
 	}
+	
+	public void checkStatus(double elapsedTime) {
+		if(this.intersect(myPaddle)) {
+			root.getChildren().remove(this.DISPLAY);
+			PowerUp.createPowerUp(elapsedTime, this);
+		}
+	}
+
 
 	// Reset powerup to block to center
 	public void reset(double x, double y) {
@@ -48,5 +56,25 @@ public class PowerUp extends Game{
 		}
 		return false;
 
+	}
+	
+	public static void createPowerUp(double elapsedTime, PowerUp p) {
+		if(p.TYPE.equals(BALL_POWERUP)){
+			Bouncer newB = new Bouncer(MOVER_SPEED);
+			newB.reset(SIZE, SIZE);
+			root.getChildren().add(newB.DISPLAY);
+			bouncers.add(newB);
+		}
+		else if(p.TYPE.equals(LIFE_POWERUP)) {
+			Life li = new Life(MARGIN + 20 * NUM_LIVES, SIZE - MARGIN);
+			NUM_LIVES++;
+			root.getChildren().add(li.DISPLAY);
+			lives.add(li);
+		}
+		else if(p.TYPE.equals(PADDLE_POWERUP)) {
+			root.getChildren().remove(myPaddle.DISPLAY);
+			myPaddle = new Paddle(SIZE/2, SIZE - 100, 2*PADDLE_WIDTH, PADDLE_HEIGHT);
+			root.getChildren().add(myPaddle.DISPLAY);
+		}
 	}
 }
