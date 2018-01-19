@@ -80,12 +80,7 @@ public class Levels extends Driver{
 		return blocks;
 	}
 	
-	public static double[][] BounceBlocksLevel3(){
 
-
-		return blocks;
-	}
-	
 	public static double[][] BounceBlocksLevel2(){
 		blocks = new double[1][2];
 		blocks[0][0] = (SIZE - BLOCK_WIDTH) / 2 ;
@@ -94,6 +89,19 @@ public class Levels extends Driver{
 		return blocks;
 	}
 	
-	
+	public static double[][] BounceBlocksLevel3(){
+		blocks = new double[16][2];
+		blocks[0][1] = 3*(SIZE)/4;
+		blocks[0][0] = 3 *SIZE / 4;
+		
+		/*
+		for(int i=0; i < blocks.length; i++) {
+			blocks[i][1] = 20*i + (SIZE - BLOCK_WIDTH) / 2;
+			blocks[i][0] = 3 *SIZE / 4;
+		}
+		*/
+
+		return blocks;
+	}
 	
 }

@@ -40,7 +40,7 @@ public class Bouncer extends Driver {
 			this.Y_SPEED = -this.Y_SPEED;
 		}
 		// Bounces against paddle
-		if(X >= pX && X <= (pX + PADDLE_WIDTH) && Y >= pY) {
+		if(X >= pX && X <= (pX + myPaddle.WIDTH) && Y >= pY) {
 			String dir= myPaddle.paddleDir(X, this.X_SPEED); //bounce according to paddle section
 			if(dir.equals("extRight") || dir.equals("extLeft")) this.X_SPEED = -2 * this.X_SPEED;
 			this.Y_SPEED = -this.Y_SPEED;
@@ -99,7 +99,7 @@ public class Bouncer extends Driver {
 		// Lose last bouncer, last life
 		else if(this.Y >= SIZE) {
 			CURR_LEVEL = -1;
-			updateLevel();
+			SceneCtrl.createLoseScreen();
 		}
 	}
 

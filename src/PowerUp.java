@@ -27,7 +27,7 @@ public class PowerUp extends Driver{
 		this.Y = this.DISPLAY.getY();
 
 	}
-	
+
 	public void checkStatus(double elapsedTime) {
 		if(this.intersect(myPaddle)) {
 			root.getChildren().remove(this.DISPLAY);
@@ -43,7 +43,7 @@ public class PowerUp extends Driver{
 	}
 
 	public void move(double elapsedTime) {
-		this.DISPLAY.setY(this.DISPLAY.getY() + MOVER_SPEED * elapsedTime);
+		this.DISPLAY.setY(this.DISPLAY.getY() + 2*MOVER_SPEED * elapsedTime);
 	}
 
 	public boolean intersect(Paddle myPaddle) {
@@ -51,13 +51,13 @@ public class PowerUp extends Driver{
 		double Y = myPaddle.DISPLAY.getY();
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
-		if(bX >= X && bX <= (X + PADDLE_WIDTH) && bY == Y) {
+		if(bX >= X && bX <= (X + myPaddle.WIDTH) && bY <= Y) {
 			return true;
 		}
 		return false;
 
 	}
-	
+
 	public static void createPowerUp(double elapsedTime, PowerUp p) {
 		if(p.TYPE.equals(BALL_POWERUP)){
 			Bouncer newB = new Bouncer(MOVER_SPEED);

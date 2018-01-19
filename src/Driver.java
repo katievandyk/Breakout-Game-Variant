@@ -74,13 +74,19 @@ public class Driver extends Application {
 	public static void step (double elapsedTime) {
 		// Move bouncer, determine intersections
 		for(Bouncer bouncer : bouncers){
-			bouncer.bounce(elapsedTime, myPaddle);
+			if(bouncer.VALID) bouncer.bounce(elapsedTime, myPaddle);
 			bouncer.checkStatus();
 		}
 		// Move power-ups down screen
+		ArrayList<PowerUp> remove = new ArrayList<PowerUp>();
 		for(PowerUp powerUp : powerUps) {
 			powerUp.move(elapsedTime);
 			powerUp.checkStatus(elapsedTime);
+			if(powerUp.intersect(myPaddle)) remove.add(powerUp);
+		}
+		
+		for(PowerUp p : remove) {
+			powerUps.remove(p);
 		}
 		// Kill blocks
 		HitBlock.killBlocks(elapsedTime);

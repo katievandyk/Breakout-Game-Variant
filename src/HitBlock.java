@@ -45,7 +45,6 @@ public class HitBlock extends Driver {
 				if(block.intersect(bouncer) && block.numhits == 1 && block.VALID) {
 					block.VALID = false;
 					root.getChildren().remove(block.DISPLAY);
-					System.out.println("HERE");
 					NUM_POINTS++;
 					SceneCtrl.updatePointsText();
 					if(block.powerUp.equals(BALL_POWERUP)) {

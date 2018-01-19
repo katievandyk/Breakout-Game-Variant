@@ -12,9 +12,6 @@ public class LevelCtrl extends Driver {
 			hit_coords = Levels.HitBlocksLevel3();
 			bounce_coords = Levels.BounceBlocksLevel2();
 		}
-		else if(CURR_LEVEL == -1){
-			SceneCtrl.createLoseScreen();
-		}
 		else {
 			SceneCtrl.createWinScreen();
 		}

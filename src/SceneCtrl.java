@@ -46,6 +46,7 @@ public class SceneCtrl extends Driver{
 		t.setFont(Font.font(java.awt.Font.SERIF, 25));
 		root.getChildren().add(t);
 	}
+	
 	public static void createWinScreen() {
 		root.getChildren().clear();
 		Text t = new Text(MARGIN, MARGIN, WIN);
