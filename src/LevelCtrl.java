@@ -1,16 +1,16 @@
 public class LevelCtrl extends Driver {
 
 	public static void changeLevel() {
-		if(CURR_LEVEL == 1) {
+		if(CURR_LEVEL == 2) {
 			hit_coords = Levels.HitBlocksLevel1();
 		}
-		else if(CURR_LEVEL == 2) {
+		else if(CURR_LEVEL == 1) {
 			hit_coords = Levels.HitBlocksLevel2();
 			bounce_coords = Levels.BounceBlocksLevel2();
 		}
 		else if(CURR_LEVEL == 3) {
 			hit_coords = Levels.HitBlocksLevel3();
-			bounce_coords = Levels.BounceBlocksLevel2();
+			bounce_coords = Levels.BounceBlocksLevel3();
 		}
 		else {
 			SceneCtrl.createWinScreen();

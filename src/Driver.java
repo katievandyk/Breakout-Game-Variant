@@ -74,8 +74,11 @@ public class Driver extends Application {
 	public static void step (double elapsedTime) {
 		// Move bouncer, determine intersections
 		for(Bouncer bouncer : bouncers){
-			if(bouncer.VALID) bouncer.bounce(elapsedTime, myPaddle);
-			bouncer.checkStatus();
+			if(bouncer.VALID) {
+				bouncer.bounce(elapsedTime);
+				bouncer.checkStatus();
+			}
+
 		}
 		// Move power-ups down screen
 		ArrayList<PowerUp> remove = new ArrayList<PowerUp>();
@@ -85,12 +88,12 @@ public class Driver extends Application {
 			if(powerUp.intersect(myPaddle)) remove.add(powerUp);
 			if(!powerUp.checkBounds()) remove.add(powerUp);
 		}
-		
+
 		for(PowerUp p : remove) {
 			root.getChildren().remove(p.DISPLAY);
 			powerUps.remove(p);
 		}
-		
+
 		// Kill blocks
 		HitBlock.killBlocks(elapsedTime);
 		BounceBlock.killBlocks(elapsedTime);
@@ -99,6 +102,7 @@ public class Driver extends Application {
 			SceneCtrl.updateLevelText();
 			updateLevel();
 		}
+		
 	}
 
 

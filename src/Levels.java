@@ -90,16 +90,16 @@ public class Levels extends Driver{
 	}
 	
 	public static double[][] BounceBlocksLevel3(){
-		blocks = new double[16][2];
-		blocks[0][1] = 3*(SIZE)/4;
-		blocks[0][0] = 3 *SIZE / 4;
+		blocks = new double[6][2];
+		blocks[0][0] = SIZE/10;
+		blocks[0][1] = 4*SIZE/6;
 		
-		/*
-		for(int i=0; i < blocks.length; i++) {
-			blocks[i][1] = 20*i + (SIZE - BLOCK_WIDTH) / 2;
-			blocks[i][0] = 3 *SIZE / 4;
+		
+		for(int i=1; i < blocks.length; i++) {
+			blocks[i][0] = blocks[i-1][0] + 3*MARGIN;
+			blocks[i][1] = blocks[i-1][1];
 		}
-		*/
+		
 
 		return blocks;
 	}

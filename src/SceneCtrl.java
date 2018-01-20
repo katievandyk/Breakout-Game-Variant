@@ -56,13 +56,15 @@ public class SceneCtrl extends Driver{
 		
 	}
 	
+
+	
 	private static void checkKey(KeyCode f) {
 		if(f == KeyCode.ENTER) {
 			root.getChildren().clear();
 			CURR_LEVEL++;
 			updateLevel();
 			addObjects();
-			myScene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
+			myScene.setOnKeyPressed(e -> CheatKeys.handleKeyInput(e.getCode()));
 		}
 	}
 	

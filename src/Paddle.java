@@ -1,15 +1,16 @@
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Driver {
 	
+	int growCount;
+	
 	Rectangle DISPLAY;
 	double X; 
 	double Y;
-	int WIDTH;
-	int HEIGHT;
+	double WIDTH;
+	double HEIGHT;
 	public static final Paint PADDLE_COLOR = Color.PLUM;
 	
 	// Constructor
@@ -32,20 +33,15 @@ public class Paddle extends Driver {
 	
 	
 	// Power up
-	public void Grow(double d, double e, int width, int height) {
-		this.DISPLAY = new Rectangle(d/2, e, 1.5*width, 1.5*height);
-		this.DISPLAY.setFill(PADDLE_COLOR);
+	public void Grow(double d, double e, double width, double height) {
+		if(growCount < 1){
+			this.DISPLAY = new Rectangle(d/2, e, 1.5*width, height);
+			this.WIDTH = 1.5*width;
+			this.DISPLAY.setFill(PADDLE_COLOR);
+		}
+		growCount++;
 	}
 	
 	
-	// Movement
-	public void handleKeyInput (KeyCode code) {
-		if (code == KeyCode.RIGHT) {
-			this.DISPLAY.setX(this.DISPLAY.getX() + MOVER_SPEED/4);
-		}
-		else if (code == KeyCode.LEFT) {
-			this.DISPLAY.setX(this.DISPLAY.getX() - MOVER_SPEED/4);
-		}
-	}
 
 }

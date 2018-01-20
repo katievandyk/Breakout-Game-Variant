@@ -26,7 +26,7 @@ public class Bouncer extends Driver {
 	}
 
 	// Bounce as appropriate
-	public void bounce(double elapsedTime, Paddle myPaddle) {
+	public void bounce(double elapsedTime) {
 		X = this.DISPLAY.getX();
 		Y = this.DISPLAY.getY();
 		double pX = myPaddle.DISPLAY.getX();
@@ -85,12 +85,12 @@ public class Bouncer extends Driver {
 	
 	public void checkStatus() {
 		// Multiple bouncers, remove one
-		if(this.DISPLAY.getY() >= SIZE && bouncers.size() > 1){
+		if(this.DISPLAY.getY() >= SIZE && getValid() > 1){
 			root.getChildren().remove(this.DISPLAY);
 			this.VALID = false;
 		}
 		// Lose last bouncer, mult. lives
-		else if(this.DISPLAY.getY() >= SIZE && lives.size() > 1) {				
+		else if(this.DISPLAY.getY() >= SIZE && lives.size() >= 1) {				
 			NUM_LIVES--;
 			root.getChildren().remove(lives.get(NUM_LIVES).DISPLAY);
 			lives.remove(NUM_LIVES);
@@ -101,6 +101,14 @@ public class Bouncer extends Driver {
 			CURR_LEVEL = -1;
 			SceneCtrl.createLoseScreen();
 		}
+	}
+	
+	public static int getValid() {
+		int count = 0;
+		for(Bouncer bouncer : bouncers) {
+			if(bouncer.VALID) count++;
+		}
+		return count;
 	}
 
 }
