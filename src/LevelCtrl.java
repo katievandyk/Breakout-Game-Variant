@@ -46,11 +46,12 @@ public class LevelCtrl extends Driver {
 			if(i % 2 == 0) {
 				numhits = 2;
 				img = BLOCK2_IMG;
-			}else {
+			}
+			else {
 				numhits = 1;
 				img = BLOCK_IMG;
-			}
-			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1], numhits, img, BALL_POWERUP));
+			} 
+			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1], numhits, img, SNOWBALL));
 			root.getChildren().add(hit_blocks.get(i).DISPLAY);
 		}
 		
@@ -60,6 +61,19 @@ public class LevelCtrl extends Driver {
 				root.getChildren().add(bounce_blocks.get(i).DISPLAY);
 			}
 		}
+	}
+	
+	
+	public static void clearBlocks() {
+		for(HitBlock block : hit_blocks) {
+			root.getChildren().remove(block.DISPLAY);
+		}
+		for(BounceBlock block : bounce_blocks) {
+			root.getChildren().remove(block.DISPLAY);
+		}
+		
+		hit_blocks.clear();
+		bounce_blocks.clear();
 	}
 }
 

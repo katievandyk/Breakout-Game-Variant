@@ -65,6 +65,12 @@ public class HitBlock extends Driver {
 						p.reset(block.X, block.Y);
 						root.getChildren().add(p.DISPLAY);
 					}
+					else if(block.powerUp.equals(SNOWBALL)) {
+						PowerUp p = new PowerUp(SNOWBALL);
+						powerUps.add(p);
+						p.reset(block.X, block.Y);
+						root.getChildren().add(p.DISPLAY);
+					}
 					bouncer.bounceBlocks(elapsedTime);
 				}
 				else if(block.intersect(bouncer) && block.VALID) {	

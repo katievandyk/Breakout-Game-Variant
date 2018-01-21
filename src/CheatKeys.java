@@ -12,13 +12,11 @@ public class CheatKeys extends Driver {
 		}
 		else if(code == KeyCode.DIGIT1) {
 			CURR_LEVEL = 1; 
-			clearBlocks();
 			updateLevel();
 			resetBouncer();
 		}
 		else if(code == KeyCode.DIGIT2) {
 			CURR_LEVEL = 2; 
-			clearBlocks();
 			updateLevel();
 			resetBouncer();
 		}

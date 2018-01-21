@@ -98,7 +98,6 @@ public class Bouncer extends Driver {
 		}
 		// Lose last bouncer, last life
 		else if(this.DISPLAY.getY() >= SIZE) {
-			CURR_LEVEL = -1;
 			SceneCtrl.createLoseScreen();
 		}
 	}

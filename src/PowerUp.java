@@ -22,6 +22,10 @@ public class PowerUp extends Driver{
 			Image image = new Image(getClass().getClassLoader().getResourceAsStream(PADDLE_POWERUP_IMG));
 			this.DISPLAY = new ImageView(image);
 		}
+		else if(type.equals("snowBall")) {
+			Image image = new Image(getClass().getClassLoader().getResourceAsStream(SNOWBALL_IMG));
+			this.DISPLAY = new ImageView(image);
+		}
 
 		this.X = this.DISPLAY.getX();
 		this.Y = this.DISPLAY.getY();
@@ -75,6 +79,11 @@ public class PowerUp extends Driver{
 			root.getChildren().remove(myPaddle.DISPLAY);
 			myPaddle.Grow(myPaddle.DISPLAY.getX(), myPaddle.DISPLAY.getY(), myPaddle.WIDTH, myPaddle.HEIGHT);
 			root.getChildren().add(myPaddle.DISPLAY);
+		}
+		else if(p.TYPE.equals(SNOWBALL)) {
+			NUM_LIVES--;
+			lives.get(NUM_LIVES).removeLife();
+			if(NUM_LIVES == 0) SceneCtrl.createLoseScreen();
 		}
 	}
 	

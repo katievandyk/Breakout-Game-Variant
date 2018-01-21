@@ -40,8 +40,10 @@ public class Driver extends Application {
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
 	public static final String PADDLE_POWERUP = "biggerPaddle";
+	public static final String SNOWBALL = "snowBall";
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
 	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
+	public static final String SNOWBALL_IMG = "snowball.jpg";
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
 	public static final String BACKGROUND_IMG = "mountain.gif";
 
@@ -128,6 +130,7 @@ public class Driver extends Application {
 	 * Update level
 	 */
 	public static void updateLevel() {
+		LevelCtrl.clearBlocks();
 		LevelCtrl.changeLevel();
 		LevelCtrl.clearLevel();
 		LevelCtrl.makeBlocks();
