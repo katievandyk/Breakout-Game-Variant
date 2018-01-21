@@ -32,13 +32,15 @@ public class PowerUp extends Driver{
 
 	}
 
-	public void checkStatus(double elapsedTime) {
-		if(this.intersect(myPaddle)) {
-			root.getChildren().remove(this.DISPLAY);
-			PowerUp.createPowerUp(elapsedTime, this);
+	public boolean checkIntersect(double padX, double padY, double pWIDTH) {
+		double bX = this.DISPLAY.getX();
+		double bY = this.DISPLAY.getY();
+		if(bX >= padX && bX <= (padX + pWIDTH) && padY <= bY) {
+			return true;
 		}
-	}
+		return false;
 
+	}
 
 	// Reset powerup to block to center
 	public void reset(double x, double y) {
@@ -49,47 +51,15 @@ public class PowerUp extends Driver{
 	public void move(double elapsedTime) {
 		this.DISPLAY.setY(this.DISPLAY.getY() + 3/2*MOVER_SPEED * elapsedTime);
 	}
-
-	public boolean intersect(Paddle myPaddle) {
-		double X = myPaddle.DISPLAY.getX();
-		double Y = myPaddle.DISPLAY.getY();
-		double bX = this.DISPLAY.getX();
-		double bY = this.DISPLAY.getY();
-		if(bX >= X && bX <= (X + myPaddle.WIDTH) && bY >= Y) {
-			return true;
-		}
-		return false;
-
-	}
-
-	public static void createPowerUp(double elapsedTime, PowerUp p) {
-		if(p.TYPE.equals(BALL_POWERUP)){
-			Bouncer newB = new Bouncer(MOVER_SPEED);
-			newB.reset(SIZE, SIZE);
-			root.getChildren().add(newB.DISPLAY);
-			bouncers.add(newB);
-		}
-		else if(p.TYPE.equals(LIFE_POWERUP)) {
-			Life li = new Life(MARGIN + 20 * NUM_LIVES, SIZE - MARGIN);
-			NUM_LIVES++;
-			root.getChildren().add(li.DISPLAY);
-			lives.add(li);
-		}
-		else if(p.TYPE.equals(PADDLE_POWERUP)) {
-			root.getChildren().remove(myPaddle.DISPLAY);
-			myPaddle.Grow(myPaddle.DISPLAY.getX(), myPaddle.DISPLAY.getY(), myPaddle.WIDTH, myPaddle.HEIGHT);
-			root.getChildren().add(myPaddle.DISPLAY);
-		}
-		else if(p.TYPE.equals(SNOWBALL)) {
-			NUM_LIVES--;
-			lives.get(NUM_LIVES).removeLife();
-			if(NUM_LIVES == 0) SceneCtrl.createLoseScreen();
-		}
-	}
 	
+	public void remove() {
+		//super.removeDisplay(this.DISPLAY);
+	}
+
+
+
 	public boolean checkBounds() {
 		if(this.DISPLAY.getY() >= SIZE) return false;
 		return true;
-		
 	}
 }

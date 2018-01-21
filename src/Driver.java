@@ -1,20 +1,24 @@
 import java.util.ArrayList;
+
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.text.Text;
 
 public class Driver extends Application {
 
-	public static final String TITLE = "Breakout";
-	public static int NUM_LIVES = 3;
-	public static int NUM_POINTS = 0;
-	public static Text NUM_POINTS_TXT;
+	public final String TITLE = "Breakout";
 	public static final int SIZE = 600;
 	public static final int FRAMES_PER_SECOND = 60;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -25,8 +29,8 @@ public class Driver extends Application {
 	public static final String BLOCK_IMG = "brick1.gif";
 	public static final String BLOCK2_IMG = "brick2.gif";
 	public static final String LIFE_IMG = "laserpower.gif";
-	public static int BOUNCER_SPEED = 30;
-	public static double BOUNCER_RADIUS = 7.5;
+	public static final int BOUNCER_SPEED = 30;
+	public static final double BOUNCER_RADIUS = 7.5;
 	public static final Paint PADDLE_COLOR = Color.PLUM;
 	public static final int PADDLE_WIDTH = 100;
 	public static final int PADDLE_HEIGHT = 25;
@@ -35,8 +39,6 @@ public class Driver extends Application {
 	public static final double BOUNCE_BLOCK = 20;
 	public static final int MARGIN = 50;
 	public static final int MOVER_SPEED = 150;
-	public static int CURR_LEVEL = 0;
-	public static Text CURR_LEVEL_TXT;
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
 	public static final String PADDLE_POWERUP = "biggerPaddle";
@@ -47,76 +49,56 @@ public class Driver extends Application {
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
 	public static final String BACKGROUND_IMG = "mountain.gif";
 
-	public static Scene myScene;
-	static Timeline animation = new Timeline();
-	static ArrayList<Bouncer> bouncers = new ArrayList<Bouncer>();
-	static ArrayList<Life> lives = new ArrayList<Life>();
-	protected static Paddle myPaddle;
-	static Group root = new Group();
-	static ArrayList<HitBlock> hit_blocks = new ArrayList<HitBlock>();
-	static ArrayList<BounceBlock> bounce_blocks = new ArrayList<BounceBlock>();
-	static ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
-	static double[][] hit_coords = null;
-	static double[][] bounce_coords = null;
+	private Paddle myPaddle;
+	private SceneCtrl sceneController;
+	private LevelCtrl levelController;
+	
+	public Group root = new Group();
 
 	/**
 	 * Initialize what will be displayed and how it will be updated.
 	 */
 	@Override
 	public void start (Stage stage) {
-		SceneCtrl.createScene(stage);	
-		SceneCtrl.setBackgroundImage(Image(BACKGROUND_IMG));
-		SceneCtrl.playAnimation();
-		SceneCtrl.createStartScreen();
+		int curr_level = 0;
+		
+        
+        // attach "game loop" to timeline to play it
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                                      e -> step(SECOND_DELAY));
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+
+		sceneController = new SceneCtrl(stage);
+		levelController = new LevelCtrl(curr_level);
+
+	//	myScene.setOnKeyPressed(f -> checkKey(f.getCode()));
+		sceneController.setScene();
+		sceneController.createStartScreen();
+		
 	}
 
 	/**
 	 * What do to in each increment of time 
 	 */
-	public static void step (double elapsedTime) {
-		// Move bouncer, determine intersections
-		for(Bouncer bouncer : bouncers){
-			if(bouncer.VALID) {
-				bouncer.bounce(elapsedTime);
-				bouncer.checkStatus();
-			}
+	public void step (double elapsedTime) {
+		sceneController.checkKeys();
 
-		}
-		// Move power-ups down screen
-		ArrayList<PowerUp> remove = new ArrayList<PowerUp>();
-		for(PowerUp powerUp : powerUps) {
-			powerUp.move(elapsedTime);
-			powerUp.checkStatus(elapsedTime);
-			if(powerUp.intersect(myPaddle)) remove.add(powerUp);
-			if(!powerUp.checkBounds()) remove.add(powerUp);
-		}
+		sceneController.move(elapsedTime);
+		sceneController.killBlocks(elapsedTime);
 
-		for(PowerUp p : remove) {
-			root.getChildren().remove(p.DISPLAY);
-			powerUps.remove(p);
-		}
 
-		// Kill blocks
-		HitBlock.killBlocks(elapsedTime);
-		BounceBlock.killBlocks(elapsedTime);
-		if(Win() && hit_blocks.size() > 0) {
-			CURR_LEVEL++;
-			SceneCtrl.updateLevelText();
-			updateLevel();
+		int level = sceneController.getCurrLevel();
+		if(sceneController.Win() && level == 1 || level ==2) {
+			System.out.println(level);
+			sceneController.updateLevelScreen();
 		}
-		
+		else if(sceneController.Win() && level == 3) sceneController.createWinScreen();
+
 	}
 
-
-	/**
-	 * Check for win
-	 */
-	public static boolean Win() {
-		for(HitBlock block : hit_blocks) {
-			if(block.VALID == true) return false;
-		}
-		return true;
-	}
 
 	/**
 	 * Convert string to image
@@ -129,19 +111,16 @@ public class Driver extends Application {
 	/**
 	 * Update level
 	 */
-	public static void updateLevel() {
-		LevelCtrl.clearBlocks();
-		LevelCtrl.changeLevel();
-		LevelCtrl.clearLevel();
-		LevelCtrl.makeBlocks();
-	}
 
+
+	
 	/**
 	 * Start the program.
 	 */
 	public static void main (String[] args) {
 		launch(args);
 	}
+
 
 }
 

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -29,14 +31,5 @@ public class BounceBlock extends Driver {
 		return false;
 	}
 	
-	public static void killBlocks(double elapsedTime) {
-		for(BounceBlock block : bounce_blocks) {
-			for(Bouncer bouncer : bouncers) {
-				if(block.intersect(bouncer)) {
-					bouncer.bounceBlocks(elapsedTime);
-				}
-			}
-		}
-	}
 
 }

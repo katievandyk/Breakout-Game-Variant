@@ -38,58 +38,7 @@ public class HitBlock extends Driver {
 		return false;
 	}
 
-	public static void killBlocks(double elapsedTime) {
-		ArrayList<HitBlock> save = new ArrayList<HitBlock>();
-		for(HitBlock block : hit_blocks) {
-			for(Bouncer bouncer : bouncers) {
-				if(block.intersect(bouncer) && block.numhits == 1 && block.VALID) {
-					block.VALID = false;
-					root.getChildren().remove(block.DISPLAY);
-					NUM_POINTS++;
-					SceneCtrl.updatePointsText();
-					if(block.powerUp.equals(BALL_POWERUP)) {
-						PowerUp p = new PowerUp(BALL_POWERUP);
-						powerUps.add(p);
-						p.reset(block.X, block.Y);
-						root.getChildren().add(p.DISPLAY);
-					}
-					else if(block.powerUp.equals(LIFE_POWERUP)) {
-						PowerUp p = new PowerUp(LIFE_POWERUP);
-						powerUps.add(p);
-						p.reset(block.X, block.Y);
-						root.getChildren().add(p.DISPLAY);
-					}
-					else if(block.powerUp.equals(PADDLE_POWERUP)) {
-						PowerUp p = new PowerUp(PADDLE_POWERUP);
-						powerUps.add(p);
-						p.reset(block.X, block.Y);
-						root.getChildren().add(p.DISPLAY);
-					}
-					else if(block.powerUp.equals(SNOWBALL)) {
-						PowerUp p = new PowerUp(SNOWBALL);
-						powerUps.add(p);
-						p.reset(block.X, block.Y);
-						root.getChildren().add(p.DISPLAY);
-					}
-					bouncer.bounceBlocks(elapsedTime);
-				}
-				else if(block.intersect(bouncer) && block.VALID) {	
-					int nh = block.numhits -1;
-					double x = block.X;
-					double y = block.Y;
-					root.getChildren().remove(block.DISPLAY);
-					block.VALID = false; 
-					block = new HitBlock(x, y, nh, BLOCK_IMG, PADDLE_POWERUP);
-					save.add(block);
-					root.getChildren().add(block.DISPLAY);
-					bouncer.bounceBlocks(elapsedTime);
-				}
-			}
-		}
-		for(HitBlock newBlock : save) {
-			hit_blocks.add(newBlock);
-		}
-	}
+
 }
 
 

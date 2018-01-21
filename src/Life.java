@@ -1,12 +1,15 @@
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Life extends Driver {
-	
+
+	private int NUM_LIVES;
+
 	ImageView DISPLAY;
 	double X;
 	double Y;
-	
+
 	// Constructor 
 	public Life(int x, int y) {
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(LIFE_IMG));
@@ -16,10 +19,14 @@ public class Life extends Driver {
 		this.X = x;
 		this.Y = y;
 	}
-	
-	public void removeLife() {
-		root.getChildren().remove(this.DISPLAY);
+
+
+	public int getLives() {
+		return NUM_LIVES;
 	}
-	
+
+	public String toText() {
+		return Integer.toString(NUM_LIVES);
+	}
 
 }

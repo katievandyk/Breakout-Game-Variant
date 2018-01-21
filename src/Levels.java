@@ -1,6 +1,7 @@
+import javafx.scene.text.Text;
 
 public class Levels extends Driver{
-	
+	public static final int CURR_LEVEL = 0;
 	static double[][] blocks;
 	
 	public static double[][] HitBlocksLevel1(){
