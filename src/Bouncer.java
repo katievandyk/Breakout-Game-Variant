@@ -1,10 +1,7 @@
-import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Bouncer extends Driver {
-
 
 	double X_SPEED;
 	double Y_SPEED; 
@@ -46,7 +43,7 @@ public class Bouncer extends Driver {
 			this.paddleBounce(X, pX, pWIDTH);
 		}
 
-		this.DISPLAY.setX(X + this.X_SPEED * elapsedTime);
+		this.DISPLAY.setX(X + this.X_SPEED * elapsedTime); 
 		this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);
 	}
 	
@@ -61,7 +58,6 @@ public class Bouncer extends Driver {
 		}
 		this.Y_SPEED = -this.Y_SPEED;
 	}
-
 
 	public boolean intersect(HitBlock block) {
 		double X = block.DISPLAY.getX();
@@ -100,13 +96,14 @@ public class Bouncer extends Driver {
 			this.VALID = false;
 			return false;
 		}
-		else if(this.DISPLAY.getY() >= SIZE) {	
-			this.VALID = false;
-			return false;
-		}
 		return true;
 	}
-
-
 	
+	public boolean isValid() {
+		return VALID;
+	}
+	
+	public ImageView getDisplay() {
+		return this.DISPLAY;
+	}
 }

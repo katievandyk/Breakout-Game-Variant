@@ -1,14 +1,12 @@
-import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Life extends Driver {
 
 	private int NUM_LIVES;
-
-	ImageView DISPLAY;
-	double X;
-	double Y;
+	private ImageView DISPLAY;
+	private double X;
+	private double Y;
 
 	// Constructor 
 	public Life(int x, int y) {
@@ -20,13 +18,16 @@ public class Life extends Driver {
 		this.Y = y;
 	}
 
-
 	public int getLives() {
 		return NUM_LIVES;
 	}
 
 	public String toText() {
 		return Integer.toString(NUM_LIVES);
+	}
+	
+	public ImageView getDisplay() {
+		return this.DISPLAY;
 	}
 
 }

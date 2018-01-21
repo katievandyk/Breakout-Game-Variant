@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -31,5 +29,8 @@ public class BounceBlock extends Driver {
 		return false;
 	}
 	
+	public ImageView getDisplay() {
+		return this.DISPLAY;
+	}
 
 }

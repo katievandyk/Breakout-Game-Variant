@@ -1,3 +1,4 @@
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -44,7 +45,8 @@ public class Paddle extends Driver {
 		return this.DISPLAY.getY();
 	}
 	
-
-
+	public Rectangle getDisplay() {
+		return this.DISPLAY;
+	}
 	
 }

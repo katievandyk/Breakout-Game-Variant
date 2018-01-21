@@ -52,11 +52,9 @@ public class PowerUp extends Driver{
 		this.DISPLAY.setY(this.DISPLAY.getY() + 3/2*MOVER_SPEED * elapsedTime);
 	}
 	
-	public void remove() {
-		//super.removeDisplay(this.DISPLAY);
+	public ImageView getDisplay() {
+		return this.DISPLAY;
 	}
-
-
 
 	public boolean checkBounds() {
 		if(this.DISPLAY.getY() >= SIZE) return false;

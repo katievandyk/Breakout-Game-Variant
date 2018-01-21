@@ -1,5 +1,3 @@
-import javafx.scene.text.Text;
-
 public class Levels extends Driver{
 	public static final int CURR_LEVEL = 0;
 	static double[][] blocks;
@@ -95,13 +93,11 @@ public class Levels extends Driver{
 		blocks[0][0] = SIZE/10;
 		blocks[0][1] = 4*SIZE/6;
 		
-		
 		for(int i=1; i < blocks.length; i++) {
 			blocks[i][0] = blocks[i-1][0] + 3*MARGIN;
 			blocks[i][1] = blocks[i-1][1];
 		}
 		
-
 		return blocks;
 	}
 	

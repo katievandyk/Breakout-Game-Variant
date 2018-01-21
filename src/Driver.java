@@ -1,20 +1,12 @@
-import java.util.ArrayList;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.text.Text;
 
 public class Driver extends Application {
 
@@ -49,9 +41,7 @@ public class Driver extends Application {
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
 	public static final String BACKGROUND_IMG = "mountain.gif";
 
-	private Paddle myPaddle;
 	private SceneCtrl sceneController;
-	private LevelCtrl levelController;
 	
 	public Group root = new Group();
 
@@ -60,8 +50,6 @@ public class Driver extends Application {
 	 */
 	@Override
 	public void start (Stage stage) {
-		int curr_level = 0;
-		
         
         // attach "game loop" to timeline to play it
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -72,11 +60,7 @@ public class Driver extends Application {
         animation.play();
 
 		sceneController = new SceneCtrl(stage);
-		levelController = new LevelCtrl(curr_level);
-
-	//	myScene.setOnKeyPressed(f -> checkKey(f.getCode()));
 		sceneController.setScene();
-		sceneController.createStartScreen();
 		
 	}
 
@@ -85,18 +69,11 @@ public class Driver extends Application {
 	 */
 	public void step (double elapsedTime) {
 		sceneController.checkKeys();
-
-		sceneController.move(elapsedTime);
-		sceneController.killBlocks(elapsedTime);
-
-
-		int level = sceneController.getCurrLevel();
-		if(sceneController.Win() && level == 1 || level ==2) {
-			System.out.println(level);
-			sceneController.updateLevelScreen();
+		if(sceneController.getLevel() > 0) {
+			sceneController.move(elapsedTime);
+			sceneController.killBlocks(elapsedTime);
+			sceneController.handleWin();	
 		}
-		else if(sceneController.Win() && level == 3) sceneController.createWinScreen();
-
 	}
 
 
@@ -108,11 +85,6 @@ public class Driver extends Application {
 		return myImage;
 	}
 
-	/**
-	 * Update level
-	 */
-
-
 	
 	/**
 	 * Start the program.
@@ -120,7 +92,6 @@ public class Driver extends Application {
 	public static void main (String[] args) {
 		launch(args);
 	}
-
 
 }
 
