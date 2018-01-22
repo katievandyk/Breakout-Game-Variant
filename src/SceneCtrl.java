@@ -8,6 +8,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class SceneCtrl extends Driver{
@@ -20,7 +21,9 @@ public class SceneCtrl extends Driver{
 	private Paddle myPaddle;
 
 
-	private String INSTRUCTIONS = "WELCOME TO BREAKOUT!";
+	private String INSTRUCTIONS  = "\n\n\n\n Use the left and right arrow keys to control the\n" +"paddle at the bottom of the screen. Avoid \n"
+			+ "the snowballs, or you'll lose a life! Make\n" + "it through all 3 levels by knocking off all\n" + "blocks to win.\n"+ "\n"
+			+ "\n" + "\n" + "PRESS ENTER TO BEGIN";
 	private String LOSE = "YOU LOST:(";
 	private String WIN = "YOU WON!!:)";
 	protected int NUM_POINTS;
@@ -71,6 +74,7 @@ public class SceneCtrl extends Driver{
 		if (code == KeyCode.RIGHT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() + MOVER_SPEED/4);
 		else if (code == KeyCode.LEFT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() - MOVER_SPEED/4);
 		else if (code == KeyCode.ENTER) {
+			clearDisplay();
 			levelcontroller = new LevelCtrl(CURR_LEVEL);
 			CURR_LEVEL = 1;
 			createLevel();
@@ -138,10 +142,16 @@ public class SceneCtrl extends Driver{
 	 * Returns win, lose and start screens
 	 */
 	public void screenText(String s) {
+		Text t;
 		clearDisplay();
-		Text t  = new Text(MARGIN, MARGIN, s);
+		Rectangle r = new Rectangle(0, SIZE/4, SIZE, SIZE/2);
+		r.setFill(Color.WHITE); 
+		addDisplay(r);
+		if(s.equals(INSTRUCTIONS)) t = new Text(SIZE/8, SIZE/6, s);
+		else t = new Text(SIZE*2/5, SIZE/2, s);
 		t.setFill(Color.BLACK);
-		t.setFont(Font.font(java.awt.Font.SERIF, 25));
+		t.setTextAlignment(TextAlignment.CENTER);
+		t.setFont(Font.font("Advent Pro", 20));
 		addDisplay(t);
 	}
 
