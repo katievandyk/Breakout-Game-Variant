@@ -281,12 +281,11 @@ public class SceneCtrl extends Driver{
 	 */
 	public void createPowerUp(double elapsedTime, PowerUp p) {
 		if(p.TYPE.equals(BALL_POWERUP)){
-			bouncers.add(new Bouncer(MOVER_SPEED));
+			bouncers.add(new Bouncer(CURR_LEVEL/2 * MOVER_SPEED + MOVER_SPEED)); 
 			bouncers.get(bouncers.size()-1).reset(SIZE, SIZE);
 			addDisplay(bouncers.get(bouncers.size()-1).DISPLAY);
 		}
 		else if(p.TYPE.equals(LIFE_POWERUP)) {
-			System.out.println(lives.size());
 			lives.add(new Life(toolbar.getOffset() + X_MARGIN/2 * lives.size(), SIZE - Y_MARGIN));
 			addDisplay(lives.get(lives.size()-1).getDisplay());
 		}

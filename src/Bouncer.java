@@ -60,7 +60,7 @@ public class Bouncer extends Driver {
 		double ratio = x / pWIDTH;
 		// Send right
 		if(ratio > 4/5 && x_SPEED < 0){
-			this.X_SPEED = -2 * this.X_SPEED;
+			this.X_SPEED = 2 * this.X_SPEED;
 		}
 		else if(ratio < 1/5 && x_SPEED > 0) {
 			this.X_SPEED = -2 * this.X_SPEED;

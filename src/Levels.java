@@ -89,7 +89,7 @@ public class Levels extends Driver{
 	
 	public static double[][] BounceBlocksLevel3(){
 		double MULTIPLIER_X = 4.5;
-		double MULTIPLIER_Y = .6;
+		double MULTIPLIER_Y = .5;
 		blocks = new double[4][2];
 		blocks[0][0] = X_MARGIN;
 				;
