@@ -123,6 +123,10 @@ public class Bouncer extends Driver {
 		return VALID;
 	}
 	
+	public void setValid(boolean t) {
+		this.VALID = t;
+	}
+	
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}

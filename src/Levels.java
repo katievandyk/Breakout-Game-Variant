@@ -1,17 +1,16 @@
 public class Levels extends Driver{
-	public static final int CURR_LEVEL = 0;
 	static double[][] blocks;
-	
+
 	public static double[][] HitBlocksLevel1(){
 		blocks = new double[28][2];
-		blocks[0][0] = MARGIN;
-		blocks[0][1] = MARGIN;
+		blocks[0][0] = X_MARGIN;
+		blocks[0][1] = X_MARGIN;
 		
 		for(int i=1; i < blocks.length; i++) {
 			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH;
 			blocks[i][1] = blocks[i-1][1];
-			if(blocks[i][0] >= (SIZE - (BLOCK_WIDTH + MARGIN))) {
-				blocks[i][0] = MARGIN;
+			if(blocks[i][0] >= (SIZE - (BLOCK_WIDTH + X_MARGIN))) {
+				blocks[i][0] = X_MARGIN;
 				blocks[i][1] = blocks[i-1][1] + BLOCK_HEIGHT;
 			}
 		}
@@ -24,12 +23,12 @@ public class Levels extends Driver{
 		blocks = new double[17][2];
 		
 		blocks[0][0] = (SIZE - BLOCK_WIDTH) / 2;
-		blocks[0][1] = MARGIN;
+		blocks[0][1] = X_MARGIN;
 		
 		for(int i=1; i < blocks.length; i++) {
 			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH * MULTIPLIER_X;
-			blocks[i][1] = blocks[i-1][1] + MARGIN * MULTIPLIER_Y;
-			if(blocks[i][0] > (SIZE - (BLOCK_WIDTH + 2*MARGIN)) || blocks[i][0] <= 2*MARGIN) {
+			blocks[i][1] = blocks[i-1][1] + X_MARGIN * MULTIPLIER_Y;
+			if(blocks[i][0] > (SIZE - (BLOCK_WIDTH + 2*X_MARGIN)) || blocks[i][0] <= 2*X_MARGIN) {
 				MULTIPLIER_X = - MULTIPLIER_X;
 			}
 			else if(blocks[i][1] >= (SIZE - 2*BLOCK_WIDTH) /2) {
@@ -53,21 +52,21 @@ public class Levels extends Driver{
 		int i;
 		for(i=1; i < num; i++) {
 			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH * MULTIPLIER_X;
-			blocks[i][1] = blocks[i-1][1] + MARGIN * MULTIPLIER_Y;
+			blocks[i][1] = blocks[i-1][1] + X_MARGIN * MULTIPLIER_Y;
 		}	
 		MULTIPLIER_Y = - MULTIPLIER_Y;
 		
 		blocks[num][0] = blocks[0][0] + BLOCK_WIDTH * MULTIPLIER_X;
-		blocks[num][1] = blocks[0][1] + MARGIN * MULTIPLIER_Y;
+		blocks[num][1] = blocks[0][1] + X_MARGIN * MULTIPLIER_Y;
 		for(i = num + 1; i < 2*num-1; i++ ) {
 			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH * MULTIPLIER_X;
-			blocks[i][1] = blocks[i-1][1] + MARGIN * MULTIPLIER_Y;
+			blocks[i][1] = blocks[i-1][1] + X_MARGIN * MULTIPLIER_Y;
 		}
 	
-		blocks[i][0] = blocks[0][0] + BLOCK_WIDTH + MARGIN/2;
+		blocks[i][0] = blocks[0][0] + BLOCK_WIDTH + X_MARGIN/2;
 		blocks[i][1] = blocks[0][1];
 		for(i = 2*num; i < 3*num -4; i++) {
-			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH + MARGIN/2;
+			blocks[i][0] = blocks[i-1][0] + BLOCK_WIDTH + X_MARGIN/2;
 			blocks[i][1] = blocks[0][1];
 		}
 
@@ -81,20 +80,25 @@ public class Levels extends Driver{
 	
 
 	public static double[][] BounceBlocksLevel2(){
+		double MULTIPLIER_X = .5;
+		double MULTIPLIER_Y = .25;
 		blocks = new double[1][2];
-		blocks[0][0] = (SIZE - BLOCK_WIDTH) / 2 ;
-		blocks[0][1] = SIZE / 4;
-
+		blocks[0][0] = (SIZE - BLOCK_WIDTH) * MULTIPLIER_X ;
+		blocks[0][1] = SIZE * MULTIPLIER_Y;
+		System.out.println(blocks[0][0] + blocks[0][1]);
 		return blocks;
 	}
 	
 	public static double[][] BounceBlocksLevel3(){
-		blocks = new double[6][2];
-		blocks[0][0] = SIZE/10;
-		blocks[0][1] = 4*SIZE/6;
+		double MULTIPLIER_X = 4.5;
+		double MULTIPLIER_Y = .6;
+		blocks = new double[4][2];
+		blocks[0][0] = X_MARGIN;
+				;
+		blocks[0][1] = SIZE * MULTIPLIER_Y;
 		
 		for(int i=1; i < blocks.length; i++) {
-			blocks[i][0] = blocks[i-1][0] + 3*MARGIN;
+			blocks[i][0] = blocks[i-1][0] + MULTIPLIER_X * X_MARGIN;
 			blocks[i][1] = blocks[i-1][1];
 		}
 		

@@ -28,7 +28,8 @@ public class Driver extends Application {
 	public static final double BLOCK_WIDTH = 70;
 	public static final double BLOCK_HEIGHT = 20;
 	public static final double BOUNCE_BLOCK = 20;
-	public static final int MARGIN = 50;
+	public static final int X_MARGIN = 50;
+	public static final int Y_MARGIN = 30;
 	public static final int MOVER_SPEED = 150;
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";

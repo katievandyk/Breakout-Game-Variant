@@ -27,7 +27,7 @@ public class ToolBar extends Driver {
 	 * Constructor
 	 */
 	public ToolBar(int points, int level) {
-		this.DISPLAY = new Rectangle(0, SIZE - MARGIN, SIZE, MARGIN);
+		this.DISPLAY = new Rectangle(0, SIZE - X_MARGIN, SIZE, X_MARGIN);
 		this.XOFFSET = SPACE;
 		this.YOFFSET = SIZE - SPACE;
 		this.CURR_LEVEL_TXT = null;
@@ -37,7 +37,7 @@ public class ToolBar extends Driver {
 		
 		XOFFSET += LIVES.length()*SPACE + SPACE * MAX_LIVES;
 		this.POINTS_LABEL = makeText(POINTS, XOFFSET, YOFFSET);
-		XOFFSET += POINTS.length()*CHAR_SIZE;
+		XOFFSET += POINTS.length() * SPACE;
 		this.NUM_POINTS_TXT = makeText(Integer.toString(points), XOFFSET, YOFFSET);
 		XOFFSET += SPACE;
 		this.LEVEL_LABEL = makeText(LEVEL, XOFFSET, YOFFSET);

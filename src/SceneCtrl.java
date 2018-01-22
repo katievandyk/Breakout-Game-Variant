@@ -12,27 +12,24 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class SceneCtrl extends Driver{
-
 	protected ArrayList<Bouncer> bouncers = new ArrayList<Bouncer>();
 	private ArrayList<Life> lives = new ArrayList<Life>();
 	protected ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
 	protected ArrayList<BounceBlock> bounce_blocks = new ArrayList<BounceBlock>();
 	protected ArrayList<HitBlock> hit_blocks = new ArrayList<HitBlock>();
 	private Paddle myPaddle;
-
-
 	private String INSTRUCTIONS  = "\n\n\n\n Use the left and right arrow keys to control the\n" +"paddle at the bottom of the screen. Avoid \n"
 			+ "the snowballs, or you'll lose a life! Make\n" + "it through all 3 levels by knocking off all\n" + "blocks to win.\n"+ "\n"
 			+ "\n" + "\n" + "PRESS ENTER TO BEGIN";
 	private String LOSE = "YOU LOST";
 	private String WIN = "YOU WON";
-	protected int NUM_POINTS;
 	private int CURR_LEVEL;
 	private Scene myScene;
 	private Stage myStage;
 	private Group root = new Group();
 	private LevelCtrl levelcontroller;
 	private ToolBar toolbar = new ToolBar(0, 1);
+	protected int NUM_POINTS;
 
 	public SceneCtrl(Stage stage) {
 		this.myScene = null;
@@ -54,13 +51,6 @@ public class SceneCtrl extends Driver{
 
 		screenText(INSTRUCTIONS);
 
-	}
-
-	/**
-	 * Returns scene
-	 */
-	public Scene getScene() {
-		return this.myScene;
 	}
 
 	/**
@@ -163,7 +153,7 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 * Returns level screen
+	 * Create initial level
 	 */
 	public void initLevel() {
 		levelcontroller.changeLevel(CURR_LEVEL);
@@ -174,6 +164,9 @@ public class SceneCtrl extends Driver{
 		addDisplay(myPaddle.getDisplay());	
 	}
 
+	/**
+	 * Update levels
+	 */
 	public void updateLevel() {
 		levelcontroller.changeLevel(CURR_LEVEL);
 		clearBlocks();
@@ -181,6 +174,9 @@ public class SceneCtrl extends Driver{
 		clearLevel();
 	}
 
+	/**
+	 * Clear all objects in level
+	 */
 	public void clearLevel() {
 		for(int i = 0; i < bouncers.size(); i++) {
 			removeDisplay(bouncers.get(i).DISPLAY);
@@ -191,7 +187,6 @@ public class SceneCtrl extends Driver{
 		powerUps.clear();
 		bouncers.clear();
 		addBouncer();
-
 	}
 
 	/**
@@ -202,7 +197,6 @@ public class SceneCtrl extends Driver{
 			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1], i));
 			addDisplay(hit_blocks.get(i).getDisplay());
 		}
-
 		if(bounce_coords != null) {
 			for(int i=0; i < bounce_coords.length; i++) {
 				bounce_blocks.add(new BounceBlock(bounce_coords[i][0], bounce_coords[i][1], BOUNCEBLOCK_IMG));
@@ -256,12 +250,15 @@ public class SceneCtrl extends Driver{
 	 */
 	public void initializeLives(int x) {
 		for(int i=0; i < 3; i++) {
-			lives.add(new Life(x, SIZE - 30));
+			lives.add(new Life(x, SIZE - Y_MARGIN));
 			addDisplay(lives.get(i).getDisplay());
-			x += MARGIN/2;
+			x += X_MARGIN/2;
 		}
 	} 
-	
+
+	/**
+	 * Reset to original 3 lives
+	 */
 	public void resetLives() {
 		for(int i=0; i < lives.size(); i++) {
 			removeDisplay(lives.get(i).getDisplay());
@@ -273,11 +270,10 @@ public class SceneCtrl extends Driver{
 	 *  Initializes main bouncer
 	 */
 	public void addBouncer() {
-		bouncers.add(new Bouncer(CURR_LEVEL * MOVER_SPEED)); 
+		bouncers.add(new Bouncer(CURR_LEVEL/2 * MOVER_SPEED + MOVER_SPEED)); 
 		bouncers.get(0).reset(SIZE, SIZE);
 		addDisplay(bouncers.get(0).getDisplay());
 	}
-
 
 	/**
 	 *  Creates powerUp once it's been intersected
@@ -290,7 +286,7 @@ public class SceneCtrl extends Driver{
 		}
 		else if(p.TYPE.equals(LIFE_POWERUP)) {
 			System.out.println(lives.size());
-			lives.add(new Life(toolbar.getOffset() * lives.size(), SIZE - 30));
+			lives.add(new Life(toolbar.getOffset() + X_MARGIN/2 * lives.size(), SIZE - Y_MARGIN));
 			addDisplay(lives.get(lives.size()-1).getDisplay());
 		}
 		else if(p.TYPE.equals(PADDLE_POWERUP)) {
@@ -303,7 +299,6 @@ public class SceneCtrl extends Driver{
 			lives.remove(lives.size()-1);
 		}
 		else if(p.TYPE.equals(SNOWBALL)) {
-			clearDisplay();
 			screenText(LOSE);
 		}
 	}
@@ -332,7 +327,7 @@ public class SceneCtrl extends Driver{
 	 */
 	public void killBlocks(double elapsedTime) {
 		String powerUp = null;
-
+		// Check intersections between all bouncers and all blocks
 		for(HitBlock block : hit_blocks) {
 			for(Bouncer bouncer : bouncers) {
 				if(block.canRemove(bouncer)) {
@@ -369,14 +364,15 @@ public class SceneCtrl extends Driver{
 	 *  Moves bouncer and powerUps
 	 */
 	public void move(double elapsedTime) {
-		// Move bouncer, determine intersections
+		// Update bouncers
 		for(Bouncer bouncer : bouncers){
 			if(bouncer.isValid()) bouncer.bounce(elapsedTime, myPaddle.getX(), myPaddle.getY(), myPaddle.WIDTH);
-			if(!bouncer.inBounds() && lives.size() >=1) removeLife();
-			else if (!bouncer.inBounds()) {
-				screenText(LOSE);
-			}
+			if(!bouncer.inBounds() && bouncer.isValid()) bouncer.setValid(false);
 		}
+		// Check for loss
+		if(handleLose() && lives.size() > 1) removeLife();
+		else if(handleLose()) screenText(LOSE);
+		// Update power ups
 		checkPowerUps(elapsedTime);
 	}
 
@@ -394,15 +390,19 @@ public class SceneCtrl extends Driver{
 	 *  Checks for win
 	 */
 	public boolean handleWin() {
-		for(HitBlock block : hit_blocks) {
-			if(block.VALID == true) {
-				return false;
-			}
-		}
+		for(HitBlock block : hit_blocks) if(block.VALID == true) return false;
 		CURR_LEVEL++;
 		if(CURR_LEVEL < 3) initLevel();
-		else {
-			screenText(WIN);
+		else screenText(WIN);
+		return true;
+	}
+	
+	/**
+	 *  Checks for loss
+	 */
+	public boolean handleLose() {
+		for(Bouncer bouncer : bouncers) {
+			if(bouncer.isValid()) return false;
 		}
 		return true;
 	}
