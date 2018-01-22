@@ -18,7 +18,7 @@ public class SceneCtrl extends Driver{
 	protected ArrayList<BounceBlock> bounce_blocks = new ArrayList<BounceBlock>();
 	protected ArrayList<HitBlock> hit_blocks = new ArrayList<HitBlock>();
 	private Paddle myPaddle;
-	private String INSTRUCTIONS  = "\n\n\n\n Use the left and right arrow keys to control the\n" +"paddle at the bottom of the screen. Avoid \n"
+	private String INSTRUCTIONS  = "WELCOME TO BREAKOUT" + "\n\n\n\n Use the left and right arrow keys to control the\n" +"paddle at the bottom of the screen. Avoid \n"
 			+ "the snowballs, or you'll lose a life! Make\n" + "it through all 3 levels by knocking off all\n" + "blocks to win.\n"+ "\n"
 			+ "\n" + "\n" + "PRESS ENTER TO BEGIN";
 	private String LOSE = "YOU LOST";
@@ -61,8 +61,8 @@ public class SceneCtrl extends Driver{
 	}
 
 	public void checkKey(KeyCode code) {
-		if (code == KeyCode.RIGHT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() + MOVER_SPEED/4);
-		else if (code == KeyCode.LEFT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() - MOVER_SPEED/4);
+		if (code == KeyCode.RIGHT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() + myPaddle.getSpeed(code));
+		else if (code == KeyCode.LEFT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() - myPaddle.getSpeed(code));
 		else if (code == KeyCode.ENTER) {
 			clearDisplay();
 			levelcontroller = new LevelCtrl(CURR_LEVEL);
@@ -141,7 +141,7 @@ public class SceneCtrl extends Driver{
 	public void screenText(String s) {
 		Text t;
 		clearDisplay();
-		Rectangle r = new Rectangle(0, SIZE/4, SIZE, SIZE/2);
+		Rectangle r = new Rectangle(0, SIZE/9, SIZE, SIZE * 2/3);
 		r.setFill(Color.WHITE); 
 		addDisplay(r);
 		if(s.equals(INSTRUCTIONS)) t = new Text(SIZE/8, SIZE/6, s);

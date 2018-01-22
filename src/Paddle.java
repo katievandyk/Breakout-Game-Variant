@@ -1,10 +1,15 @@
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Driver {
 	
-	int growCount;
+	private int growCount;
+	private KeyCode prev = null;
+	private int baseSpeed = MOVER_SPEED/4;
+	private static final int increment = 5;
+	private int currSpeed = baseSpeed;
 	
 	Rectangle DISPLAY;
 	double X; 
@@ -51,5 +56,19 @@ public class Paddle extends Driver {
 	public Rectangle getDisplay() {
 		return this.DISPLAY;
 	}
+	
+	public int getSpeed(KeyCode code) {
+		// Increment speed
+		if(code == prev) {	
+			currSpeed = currSpeed + increment;
+			return currSpeed;
+		}
+		// Reset speed
+		else {
+			prev = code;
+			currSpeed = baseSpeed;
+			return currSpeed;
+		}
+	} 
 	
 }
