@@ -3,10 +3,7 @@ import javafx.scene.image.ImageView;
 
 public class BounceBlock extends Driver {
 
-	ImageView DISPLAY;
-	int numhits;
-	double X;
-	double Y;
+	private ImageView DISPLAY;
 	
 	/**
 	 * Block that only bounces objects off of it
@@ -16,15 +13,11 @@ public class BounceBlock extends Driver {
 		this.DISPLAY = new ImageView(image);
 		this.DISPLAY.setX(x);
 		this.DISPLAY.setY(y);
-		this.X = x;
-		this.Y = y;
 	}
 	
-	public boolean intersect(Bouncer bouncer) {
-		double X = this.X;
-		double Y = this.Y;
-		double bX = bouncer.DISPLAY.getX();
-		double bY = bouncer.DISPLAY.getY();		
+	public boolean intersect(double bX, double bY) {
+		double X = this.getX();
+		double Y = this.getY();
 
 		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
 			return true;
@@ -35,5 +28,14 @@ public class BounceBlock extends Driver {
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
+	
+	public double getX() {
+		return this.DISPLAY.getX();
+	}
+	
+	public double getY() {
+		return this.DISPLAY.getY();
+	}
+
 
 }

@@ -11,11 +11,9 @@ public class Paddle extends Driver {
 	private static final int increment = 5;
 	private int currSpeed = baseSpeed;
 	
-	Rectangle DISPLAY;
-	double X; 
-	double Y;
-	double WIDTH;
-	double HEIGHT;
+	private Rectangle DISPLAY;
+	private double WIDTH;
+	private double HEIGHT;
 	public static final Paint PADDLE_COLOR = Color.AZURE;
 	
     /**
@@ -47,6 +45,14 @@ public class Paddle extends Driver {
 	
 	public double getX() {
 		return this.DISPLAY.getX();
+	}	
+	
+	public double getHeight() {
+		return this.HEIGHT;
+	}
+	
+	public double getWidth() {
+		return this.WIDTH;
 	}
 	
 	public double getY() {

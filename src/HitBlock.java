@@ -3,13 +3,13 @@ import javafx.scene.image.ImageView;
 
 public class HitBlock extends Driver {
 
-	ImageView DISPLAY;
-	int numhits;
-	double X;
-	double Y;
-	String powerUp;
-	boolean VALID;
-	String[] availablePowerUps = {SNOWBALL, BALL_POWERUP, LIFE_POWERUP, PADDLE_POWERUP, null};
+	private ImageView DISPLAY;
+	private int numhits;
+	private double X;
+	private double Y;
+	private String POWERUP;
+	private boolean VALID;
+	private String[] availablePowerUps = {SNOWBALL, BALL_POWERUP, LIFE_POWERUP, PADDLE_POWERUP, null};
 
 	/**
 	 * Constructor, known power up
@@ -22,7 +22,7 @@ public class HitBlock extends Driver {
 		this.numhits = nHits;
 		this.X = x;
 		this.Y = y;
-		this.powerUp = powerUp;
+		this.POWERUP = powerUp;
 		this.VALID = true;
 	}
 	
@@ -52,7 +52,7 @@ public class HitBlock extends Driver {
 		this.numhits = numhits;
 		this.X = x;
 		this.Y = y;
-		this.powerUp = availablePowerUps[r];
+		this.POWERUP = availablePowerUps[r];
 		this.VALID = true;
 	}
 	
@@ -87,8 +87,8 @@ public class HitBlock extends Driver {
 	public boolean intersect(Bouncer bouncer) {
 		double X = this.DISPLAY.getX();
 		double Y = this.DISPLAY.getY();
-		double bX = bouncer.DISPLAY.getX();
-		double bY = bouncer.DISPLAY.getY();		
+		double bX = bouncer.getX();
+		double bY = bouncer.getY();	
 
 		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
 			return true;
@@ -102,11 +102,22 @@ public class HitBlock extends Driver {
 
 	public double getX() {
 		return this.DISPLAY.getX();
-
 	}
 
 	public double getY() {
 		return this.DISPLAY.getY();
+	}
+	
+	public boolean getValid() {
+		return this.VALID;
+	}
+	
+	public void setValid(boolean v) {
+		this.VALID = v;
+	}
+	
+	public String getPowerUp() {
+		return this.POWERUP;
 	}
 }
 

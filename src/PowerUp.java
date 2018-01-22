@@ -3,10 +3,8 @@ import javafx.scene.image.ImageView;
 
 public class PowerUp extends Driver{
 
-	String TYPE;
-	ImageView DISPLAY;
-	double X;
-	double Y;
+	private String TYPE;
+	private ImageView DISPLAY;
 
 	/**
 	 * Constructor
@@ -29,18 +27,15 @@ public class PowerUp extends Driver{
 			Image image = new Image(getClass().getClassLoader().getResourceAsStream(SNOWBALL_IMG));
 			this.DISPLAY = new ImageView(image);
 		}
-		this.X = this.DISPLAY.getX();
-		this.Y = this.DISPLAY.getY();
-
 	}
 
 	/**
 	 * Check if intersect with paddle
 	 */
-	public boolean checkIntersect(double padX, double padY, double pWIDTH) {
+	public boolean checkIntersect(double padX, double padY, double pWIDTH, double pHEIGHT) {
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
-		if(bX >= padX && bX <= (padX + pWIDTH) && padY <= bY) {
+		if(bX >= padX && bX <= (padX + pWIDTH) && padY <= bY && (padY + pHEIGHT) > bY) {
 			return true;
 		}
 		return false;
@@ -64,6 +59,10 @@ public class PowerUp extends Driver{
 
 	public ImageView getDisplay() {
 		return this.DISPLAY;
+	}
+	
+	public String getType() {
+		return this.TYPE;
 	}
 
 	public boolean checkBounds() {

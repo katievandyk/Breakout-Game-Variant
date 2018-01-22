@@ -1,7 +1,6 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -38,6 +37,7 @@ public class Driver extends Application {
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
 	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
 	public static final String SNOWBALL_IMG = "snowball.gif";
+	
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
 	public static final String BACKGROUND_IMG = "mountain.gif";
 	private SceneCtrl sceneController;

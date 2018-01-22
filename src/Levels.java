@@ -1,5 +1,5 @@
 public class Levels extends Driver{
-	static double[][] blocks;
+	private static double[][] blocks;
 
 	public static double[][] HitBlocksLevel1(){
 		blocks = new double[28][2];

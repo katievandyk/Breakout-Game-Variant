@@ -48,9 +48,8 @@ public class SceneCtrl extends Driver{
 		this.myStage.setScene(myScene);
 		this.myStage.setTitle(TITLE);
 		this.myStage.show();
-
+		
 		screenText(INSTRUCTIONS);
-
 	}
 
 	/**
@@ -160,7 +159,7 @@ public class SceneCtrl extends Driver{
 		makeToolbar();
 		makeBlocks(levelcontroller.getHitCoords(), levelcontroller.getBounceCoords());
 		addBouncer();
-		myPaddle = new Paddle(SIZE/2, SIZE - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
+		myPaddle = new Paddle(SIZE/2, SIZE - 2*X_MARGIN, PADDLE_WIDTH, PADDLE_HEIGHT);
 		addDisplay(myPaddle.getDisplay());	
 	}
 
@@ -180,10 +179,10 @@ public class SceneCtrl extends Driver{
 	 */
 	public void clearLevel() {
 		for(int i = 0; i < bouncers.size(); i++) {
-			removeDisplay(bouncers.get(i).DISPLAY);
+			removeDisplay(bouncers.get(i).getDisplay());
 		}
 		for(int i=0; i < powerUps.size(); i++) {
-			removeDisplay(powerUps.get(i).DISPLAY);
+			removeDisplay(powerUps.get(i).getDisplay());
 		}
 		powerUps.clear();
 		bouncers.clear();
@@ -232,6 +231,7 @@ public class SceneCtrl extends Driver{
 	 *  Updates points feature of toolbar
 	 */
 	public void updatePointsText() {
+		NUM_POINTS++;
 		removeDisplay(toolbar.getPoints());
 		toolbar.updatePoints(NUM_POINTS);
 		addDisplay(toolbar.getPoints());
@@ -280,25 +280,25 @@ public class SceneCtrl extends Driver{
 	 *  Creates powerUp once it's been intersected
 	 */
 	public void createPowerUp(double elapsedTime, PowerUp p) {
-		if(p.TYPE.equals(BALL_POWERUP)){
+		if(p.getType().equals(BALL_POWERUP)){
 			bouncers.add(new Bouncer(CURR_LEVEL/2 * MOVER_SPEED + MOVER_SPEED)); 
 			bouncers.get(bouncers.size()-1).reset(SIZE, SIZE);
-			addDisplay(bouncers.get(bouncers.size()-1).DISPLAY);
+			addDisplay(bouncers.get(bouncers.size()-1).getDisplay());
 		}
-		else if(p.TYPE.equals(LIFE_POWERUP)) {
+		else if(p.getType().equals(LIFE_POWERUP)) {
 			lives.add(new Life(toolbar.getOffset() + X_MARGIN/2 * lives.size(), SIZE - Y_MARGIN));
 			addDisplay(lives.get(lives.size()-1).getDisplay());
 		}
-		else if(p.TYPE.equals(PADDLE_POWERUP)) {
+		else if(p.getType().equals(PADDLE_POWERUP)) {
 			removeDisplay(myPaddle.getDisplay());
 			myPaddle.Grow();
 			addDisplay(myPaddle.getDisplay());
 		}
-		else if(p.TYPE.equals(SNOWBALL) && lives.size() >= 1) {
+		else if(p.getType().equals(SNOWBALL) && lives.size() >= 1) {
 			removeDisplay(lives.get(lives.size()-1).getDisplay());
 			lives.remove(lives.size()-1);
 		}
-		else if(p.TYPE.equals(SNOWBALL)) {
+		else if(p.getType().equals(SNOWBALL)) {
 			screenText(LOSE);
 		}
 	}
@@ -310,7 +310,7 @@ public class SceneCtrl extends Driver{
 		ArrayList<PowerUp> toRemove = new ArrayList<PowerUp>();
 		for(PowerUp powerUp : powerUps) {
 			powerUp.move(elapsedTime);
-			if(powerUp.checkIntersect(myPaddle.getX(), myPaddle.getY(), myPaddle.WIDTH)) {
+			if(powerUp.checkIntersect(myPaddle.getX(), myPaddle.getY(), myPaddle.getWidth(), myPaddle.getHeight())) {
 				toRemove.add(powerUp);
 				createPowerUp(elapsedTime, powerUp);
 			}
@@ -331,11 +331,10 @@ public class SceneCtrl extends Driver{
 		for(HitBlock block : hit_blocks) {
 			for(Bouncer bouncer : bouncers) {
 				if(block.canRemove(bouncer)) {
-					block.VALID = false;
+					block.setValid(false);
 					removeDisplay(block.getDisplay());
-					NUM_POINTS++;
 					updatePointsText();
-					powerUp = block.powerUp;
+					powerUp = block.getPowerUp();
 					if(powerUp != null) {
 						powerUps.add(new PowerUp(powerUp));
 						powerUps.get(powerUps.size()-1).reset(block.getX(), block.getY());
@@ -353,7 +352,7 @@ public class SceneCtrl extends Driver{
 		}
 		for(BounceBlock block : bounce_blocks) {
 			for(Bouncer bouncer : bouncers) {
-				if(block.intersect(bouncer)) {
+				if(block.intersect(bouncer.getX(), bouncer.getY())) {
 					bouncer.bounceBlocks(elapsedTime);
 				}
 			}
@@ -366,13 +365,12 @@ public class SceneCtrl extends Driver{
 	public void move(double elapsedTime) {
 		// Update bouncers
 		for(Bouncer bouncer : bouncers){
-			if(bouncer.isValid()) bouncer.bounce(elapsedTime, myPaddle.getX(), myPaddle.getY(), myPaddle.WIDTH);
+			if(bouncer.isValid()) bouncer.bounce(elapsedTime, myPaddle.getX(), myPaddle.getY(), myPaddle.getWidth());
 			if(!bouncer.inBounds() && bouncer.isValid()) bouncer.setValid(false);
 		}
 		// Check for loss
 		if(handleLose() && lives.size() > 1) removeLife();
 		else if(handleLose()) screenText(LOSE);
-		// Update power ups
 		checkPowerUps(elapsedTime);
 	}
 
@@ -390,9 +388,9 @@ public class SceneCtrl extends Driver{
 	 *  Checks for win
 	 */
 	public boolean handleWin() {
-		for(HitBlock block : hit_blocks) if(block.VALID == true) return false;
+		for(HitBlock block : hit_blocks) if(block.getValid() == true) return false;
 		CURR_LEVEL++;
-		if(CURR_LEVEL <= 3) initLevel();
+		if(CURR_LEVEL <= 3) updateLevel();
 		else screenText(WIN);
 		return true;
 	}

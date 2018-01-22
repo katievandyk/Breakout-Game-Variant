@@ -3,12 +3,12 @@ import javafx.scene.image.ImageView;
 
 public class Bouncer extends Driver {
 
-	double X_SPEED;
-	double Y_SPEED; 
-	double X;
-	double Y;
-	ImageView DISPLAY;
-	boolean VALID;
+	private double X_SPEED;
+	private double Y_SPEED; 
+	private double X;
+	private double Y;
+	private ImageView DISPLAY;
+	private boolean VALID;
 
 	/**
 	 * Constructor
@@ -69,13 +69,13 @@ public class Bouncer extends Driver {
 	}
 
 	/**
-	 * Check bouuncer intersection with hit block
+	 * Check bouncer intersection with hit block
 	 */
 	public boolean intersect(HitBlock block) {
-		double X = block.DISPLAY.getX();
-		double Y = block.DISPLAY.getY();
-		double bX = this.DISPLAY.getX();
-		double bY = this.DISPLAY.getY();
+		double X = block.getX();
+		double Y = block.getY();
+		double bX = this.getX();
+		double bY = this.getY();
 		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
 			return true;
 		}
@@ -86,8 +86,8 @@ public class Bouncer extends Driver {
 	 * Check block intersection with bounce block
 	 */
 	public boolean intersect(BounceBlock block) {
-		double X = block.DISPLAY.getX();
-		double Y = block.DISPLAY.getY();
+		double X = block.getX();
+		double Y = block.getY();
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
 		if(bX >= X && bX <= (X + BLOCK_HEIGHT) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
@@ -129,5 +129,14 @@ public class Bouncer extends Driver {
 	
 	public ImageView getDisplay() {
 		return this.DISPLAY;
+	}
+	
+	public double getX() {
+		X = this.DISPLAY.getX();
+		return X;
+	}
+	
+	public double getY() {
+		return this.DISPLAY.getY();
 	}
 }
