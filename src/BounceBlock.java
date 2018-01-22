@@ -8,18 +8,21 @@ public class BounceBlock extends Driver {
 	double X;
 	double Y;
 	
-	public BounceBlock(double bounce_coords, double bounce_coords2, String BLOCK_IMAGE) {
+	/**
+	 * Block that only bounces objects off of it
+	 */
+	public BounceBlock(double x, double y, String BLOCK_IMAGE) {
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BLOCK_IMAGE));
 		this.DISPLAY = new ImageView(image);
-		this.DISPLAY.setX(bounce_coords);
-		this.DISPLAY.setY(bounce_coords2);
-		this.X = bounce_coords;
-		this.Y = bounce_coords2;
+		this.DISPLAY.setX(x);
+		this.DISPLAY.setY(y);
+		this.X = x;
+		this.Y = y;
 	}
 	
 	public boolean intersect(Bouncer bouncer) {
-		double X = this.DISPLAY.getX();
-		double Y = this.DISPLAY.getY();
+		double X = this.X;
+		double Y = this.Y;
 		double bX = bouncer.DISPLAY.getX();
 		double bY = bouncer.DISPLAY.getY();		
 

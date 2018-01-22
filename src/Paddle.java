@@ -11,9 +11,11 @@ public class Paddle extends Driver {
 	double Y;
 	double WIDTH;
 	double HEIGHT;
-	public static final Paint PADDLE_COLOR = Color.PLUM;
+	public static final Paint PADDLE_COLOR = Color.AZURE;
 	
-	// Constructor
+    /**
+     * Constructor
+     */
 	public Paddle(int x, int y, int width, int height) {
 		this.DISPLAY = new Rectangle(x, y, width, height);
 		this.DISPLAY.setFill(PADDLE_COLOR);
@@ -21,7 +23,9 @@ public class Paddle extends Driver {
 		this.HEIGHT = height;
 	}
 
-	// Power up
+	/**
+	 * Grow power up
+	 */
 	public void Grow() {
 		double width = this.WIDTH;
 		double height = this.HEIGHT;

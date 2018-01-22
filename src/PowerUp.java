@@ -8,6 +8,9 @@ public class PowerUp extends Driver{
 	double X;
 	double Y;
 
+	/**
+	 * Constructor
+	 */
 	public PowerUp(String type){
 		this.TYPE = type;
 		if(type.equals("newBall")) {
@@ -26,12 +29,14 @@ public class PowerUp extends Driver{
 			Image image = new Image(getClass().getClassLoader().getResourceAsStream(SNOWBALL_IMG));
 			this.DISPLAY = new ImageView(image);
 		}
-
 		this.X = this.DISPLAY.getX();
 		this.Y = this.DISPLAY.getY();
 
 	}
 
+	/**
+	 * Check if intersect with paddle
+	 */
 	public boolean checkIntersect(double padX, double padY, double pWIDTH) {
 		double bX = this.DISPLAY.getX();
 		double bY = this.DISPLAY.getY();
@@ -42,16 +47,21 @@ public class PowerUp extends Driver{
 
 	}
 
-	// Reset powerup to block to center
+	/**
+	 * Set power up block position
+	 */
 	public void reset(double x, double y) {
 		this.DISPLAY.setX(x);
 		this.DISPLAY.setY(y);
 	}
 
+	/**
+	 * Move power up down screen
+	 */
 	public void move(double elapsedTime) {
 		this.DISPLAY.setY(this.DISPLAY.getY() + 3/2*MOVER_SPEED * elapsedTime);
 	}
-	
+
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}

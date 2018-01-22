@@ -11,7 +11,9 @@ public class HitBlock extends Driver {
 	boolean VALID;
 	String[] availablePowerUps = {SNOWBALL, BALL_POWERUP, LIFE_POWERUP, PADDLE_POWERUP, null};
 
-	
+	/**
+	 * Constructor, known power up
+	 */
 	public HitBlock (double x, double y, int nHits, String BLOCK_IMAGE, String powerUp){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BLOCK_IMAGE));
 		this.DISPLAY = new ImageView(image);
@@ -23,7 +25,11 @@ public class HitBlock extends Driver {
 		this.powerUp = powerUp;
 		this.VALID = true;
 	}
-	// Constructor
+	
+	
+	/**
+	 * Constructor, unknown power up
+	 */
 	public HitBlock (double x, double y, int i) {
 		String img;
 		int numhits;
@@ -50,15 +56,23 @@ public class HitBlock extends Driver {
 		this.VALID = true;
 	}
 	
-
+	/**
+	 * Check that block can be removed from screen
+	 */
 	public boolean canRemove(Bouncer bouncer) {
 		return this.intersect(bouncer) && this.numhits == 1 && this.VALID;
 	}
 
+	/**
+	 * Check that block can be hit, possibly removed
+	 */
 	public boolean canHit(Bouncer bouncer) {
 		return this.intersect(bouncer) && this.VALID;	
 	}
 
+	/**
+	 * Decrease number of hits left before removal
+	 */
 	public void decreaseHits(String newImage) {
 		this.numhits--;
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(newImage));
@@ -67,6 +81,9 @@ public class HitBlock extends Driver {
 		this.DISPLAY.setY(this.Y);
 	}
 
+	/**
+	 * Check if intersect with bouncer
+	 */
 	public boolean intersect(Bouncer bouncer) {
 		double X = this.DISPLAY.getX();
 		double Y = this.DISPLAY.getY();

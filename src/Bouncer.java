@@ -10,7 +10,9 @@ public class Bouncer extends Driver {
 	ImageView DISPLAY;
 	boolean VALID;
 
-	// Constructor
+	/**
+	 * Constructor
+	 */
 	public Bouncer (int speed){
 		this.X_SPEED = speed;
 		this.Y_SPEED = speed;
@@ -20,13 +22,17 @@ public class Bouncer extends Driver {
 	}
 	
 
-	// Reset bouncer to center
+	/**
+	 *  Reset bouncer to center 
+	 */
 	public void reset(int width, int height) {
 		this.DISPLAY.setX(width / 2 - this.DISPLAY.getBoundsInLocal().getWidth() / 2);
 		this.DISPLAY.setY(height / 2 - this.DISPLAY.getBoundsInLocal().getHeight() / 2);
 	}
 
-	// Bounce as appropriate
+	/**
+	 * Bounce off of walls/objects
+	 */
 	public void bounce(double elapsedTime, double pX, double pY, double pWIDTH) {
 		X = this.DISPLAY.getX();
 		Y = this.DISPLAY.getY();
@@ -47,6 +53,9 @@ public class Bouncer extends Driver {
 		this.DISPLAY.setY(Y + this.Y_SPEED* elapsedTime);
 	}
 	
+	/**
+	 * Bounce off of paddle
+	 */
 	public void paddleBounce(double x, double x_SPEED, double pWIDTH) {
 		double ratio = x / pWIDTH;
 		// Send right
@@ -59,6 +68,9 @@ public class Bouncer extends Driver {
 		this.Y_SPEED = -this.Y_SPEED;
 	}
 
+	/**
+	 * Check bouuncer intersection with hit block
+	 */
 	public boolean intersect(HitBlock block) {
 		double X = block.DISPLAY.getX();
 		double Y = block.DISPLAY.getY();
@@ -70,6 +82,9 @@ public class Bouncer extends Driver {
 		return false;
 	}
 
+	/**
+	 * Check block intersection with bounce block
+	 */
 	public boolean intersect(BounceBlock block) {
 		double X = block.DISPLAY.getX();
 		double Y = block.DISPLAY.getY();
@@ -81,7 +96,9 @@ public class Bouncer extends Driver {
 		return false;
 	}
 
-
+	/**
+	 * Bounce off of block
+	 */
 	public void bounceBlocks(double elapsedTime) {
 		if(this.VALID) {
 			this.X_SPEED = -MOVER_SPEED;
@@ -91,6 +108,9 @@ public class Bouncer extends Driver {
 		}
 	}
 
+	/**
+	 * Check if valid (within stage)
+	 */
 	public boolean inBounds() {
 		if(this.DISPLAY.getY() >= SIZE){
 			this.VALID = false;

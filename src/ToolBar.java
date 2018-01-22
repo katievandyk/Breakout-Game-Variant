@@ -3,7 +3,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
 public class ToolBar extends Driver {
 	
 	private String LIVES = "LIVES:";
@@ -14,26 +13,37 @@ public class ToolBar extends Driver {
 	private Text POINTS_LABEL;
 	private Text LEVEL_LABEL;
 	
-	private int space = MARGIN/2; 
-
+	private int SPACE = 20;
+	private int CHAR_SIZE = 12;
+	private int MAX_LIVES = 3;
 	private Rectangle DISPLAY;
-	private int XOFFSET = MARGIN/2;
-	private int YOFFSET = SIZE - 20;
+	private int XOFFSET;
+	private int YOFFSET;
+	private int LIVES_OFFSET;
 	private Text CURR_LEVEL_TXT;
 	private Text NUM_POINTS_TXT;
 
+	/**
+	 * Constructor
+	 */
 	public ToolBar(int points, int level) {
 		this.DISPLAY = new Rectangle(0, SIZE - MARGIN, SIZE, MARGIN);
-		this.XOFFSET = space;
-		this.YOFFSET = SIZE - space + 5;
+		this.XOFFSET = SPACE;
+		this.YOFFSET = SIZE - SPACE;
 		this.CURR_LEVEL_TXT = null;
 		this.NUM_POINTS_TXT = null;
+		this.LIVES_OFFSET = LIVES.length() * CHAR_SIZE;
 		this.LIVES_LABEL = makeText(LIVES, XOFFSET, YOFFSET);
-		this.POINTS_LABEL = makeText(POINTS, XOFFSET + 5*space, YOFFSET);
-		this.LEVEL_LABEL = makeText(LEVEL, XOFFSET + 12*space, YOFFSET);
 		
-		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), 20*space, YOFFSET);
-		this.NUM_POINTS_TXT = makeText(Integer.toString(points), 12*space, YOFFSET);
+		XOFFSET += LIVES.length()*SPACE + SPACE * MAX_LIVES;
+		this.POINTS_LABEL = makeText(POINTS, XOFFSET, YOFFSET);
+		XOFFSET += POINTS.length()*CHAR_SIZE;
+		this.NUM_POINTS_TXT = makeText(Integer.toString(points), XOFFSET, YOFFSET);
+		XOFFSET += SPACE;
+		this.LEVEL_LABEL = makeText(LEVEL, XOFFSET, YOFFSET);
+		XOFFSET += LEVEL.length()*CHAR_SIZE;
+		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), XOFFSET, YOFFSET);
+		XOFFSET += SPACE;
 	}
 	
 	public Rectangle getBar() {
@@ -49,7 +59,7 @@ public class ToolBar extends Driver {
 	}
 	
 	public int getOffset() {
-		return this.XOFFSET;
+		return this.LIVES_OFFSET;
 	}
 	
 	public Text getLevelLabel() {
@@ -65,11 +75,11 @@ public class ToolBar extends Driver {
 	}
 	
 	public void updateLevel(int level) {
-		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), 10*space, YOFFSET);
+		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), 10*SPACE, YOFFSET);
 	}
 	
 	public void updatePoints(int points) {
-		this.NUM_POINTS_TXT = makeText(Integer.toString(points), 10*space, YOFFSET);
+		this.NUM_POINTS_TXT = makeText(Integer.toString(points), 10*SPACE, YOFFSET);
 	}
 
 	private Text makeText(String in, double XOFFSET, int y){

@@ -24,15 +24,15 @@ public class SceneCtrl extends Driver{
 	private String INSTRUCTIONS  = "\n\n\n\n Use the left and right arrow keys to control the\n" +"paddle at the bottom of the screen. Avoid \n"
 			+ "the snowballs, or you'll lose a life! Make\n" + "it through all 3 levels by knocking off all\n" + "blocks to win.\n"+ "\n"
 			+ "\n" + "\n" + "PRESS ENTER TO BEGIN";
-	private String LOSE = "YOU LOST:(";
-	private String WIN = "YOU WON!!:)";
+	private String LOSE = "YOU LOST";
+	private String WIN = "YOU WON";
 	protected int NUM_POINTS;
 	private int CURR_LEVEL;
 	private Scene myScene;
 	private Stage myStage;
 	private Group root = new Group();
 	private LevelCtrl levelcontroller;
-	private ToolBar t = new ToolBar(0, 1);
+	private ToolBar toolbar = new ToolBar(0, 1);
 
 	public SceneCtrl(Stage stage) {
 		this.myScene = null;
@@ -40,7 +40,7 @@ public class SceneCtrl extends Driver{
 		this.CURR_LEVEL = 0;
 		this.NUM_POINTS = 0;
 	}
-	
+
 	/**
 	 * Constructor
 	 */
@@ -77,21 +77,28 @@ public class SceneCtrl extends Driver{
 			clearDisplay();
 			levelcontroller = new LevelCtrl(CURR_LEVEL);
 			CURR_LEVEL = 1;
-			createLevel();
+			initLevel();
+			initializeLives(toolbar.getOffset());
 		}
 		else if(code == KeyCode.DIGIT1) {
 			CURR_LEVEL = 1;
-			createLevel();
+			updateLevel();
 		}
 		else if(code == KeyCode.DIGIT2) {
 			CURR_LEVEL = 2;
-			createLevel();
+			updateLevel();
 		}
 		else if(code == KeyCode.DIGIT3) {
 			CURR_LEVEL = 3;
-			createLevel();
+			updateLevel();
 		}
-		else screenText(LOSE);
+		else if(code == KeyCode.L) {
+			resetLives();
+			initializeLives(toolbar.getOffset());
+		}
+		else if(code == KeyCode.R) {
+			updateLevel();
+		}
 	}
 
 	/**
@@ -100,15 +107,15 @@ public class SceneCtrl extends Driver{
 	public void removeDisplay(ImageView image) {
 		root.getChildren().remove(image);
 	}
-	
+
 	public void removeDisplay(Text image) {
 		root.getChildren().remove(image);
 	}
-	
+
 	public void removeDisplay(Rectangle image) {
 		root.getChildren().remove(image);
 	}
-	
+
 	/**
 	 * Adds images, rectangles, and text to screen 
 	 */
@@ -123,7 +130,7 @@ public class SceneCtrl extends Driver{
 	public void addDisplay(Rectangle image) {
 		root.getChildren().add(image);
 	}
-	
+
 	/**
 	 * Returns current level
 	 */
@@ -158,27 +165,44 @@ public class SceneCtrl extends Driver{
 	/**
 	 * Returns level screen
 	 */
-	public void createLevel() {
+	public void initLevel() {
 		levelcontroller.changeLevel(CURR_LEVEL);
-		clearDisplay();
 		makeToolbar();
-		clearBlocks();
 		makeBlocks(levelcontroller.getHitCoords(), levelcontroller.getBounceCoords());
 		addBouncer();
 		myPaddle = new Paddle(SIZE/2, SIZE - 100, PADDLE_WIDTH, PADDLE_HEIGHT);
 		addDisplay(myPaddle.getDisplay());	
 	}
 
+	public void updateLevel() {
+		levelcontroller.changeLevel(CURR_LEVEL);
+		clearBlocks();
+		makeBlocks(levelcontroller.getHitCoords(), levelcontroller.getBounceCoords());
+		clearLevel();
+	}
+
+	public void clearLevel() {
+		for(int i = 0; i < bouncers.size(); i++) {
+			removeDisplay(bouncers.get(i).DISPLAY);
+		}
+		for(int i=0; i < powerUps.size(); i++) {
+			removeDisplay(powerUps.get(i).DISPLAY);
+		}
+		powerUps.clear();
+		bouncers.clear();
+		addBouncer();
+
+	}
+
 	/**
 	 * Makes block objects from coordinates
 	 */
 	private void makeBlocks(double[][] hit_coords, double[][] bounce_coords) {
-		System.out.println(CURR_LEVEL);
 		for(int i=0; i < hit_coords.length; i++) {
 			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1], i));
 			addDisplay(hit_blocks.get(i).getDisplay());
 		}
-		
+
 		if(bounce_coords != null) {
 			for(int i=0; i < bounce_coords.length; i++) {
 				bounce_blocks.add(new BounceBlock(bounce_coords[i][0], bounce_coords[i][1], BOUNCEBLOCK_IMG));
@@ -196,36 +220,35 @@ public class SceneCtrl extends Driver{
 		hit_blocks.clear();
 		bounce_blocks.clear();
 	}
-	
+
 	/**
 	 *  Initializes toolbar
 	 */
 	public void makeToolbar() {
-		addDisplay(t.getBar());
-		addDisplay(t.getLivesLabel());
-		addDisplay(t.getPointsLabel());
-		addDisplay(t.getLevelLabel());
-		addDisplay(t.getPoints());
-		addDisplay(t.getLevel());
-		initializeLives(t.getOffset() + MARGIN);
+		addDisplay(toolbar.getBar());
+		addDisplay(toolbar.getLivesLabel());
+		addDisplay(toolbar.getPointsLabel());
+		addDisplay(toolbar.getLevelLabel());
+		addDisplay(toolbar.getPoints());
+		addDisplay(toolbar.getLevel());
 	}
 
 	/**
 	 *  Updates points feature of toolbar
 	 */
 	public void updatePointsText() {
-		removeDisplay(t.getPoints());
-		t.updatePoints(NUM_POINTS);
-		addDisplay(t.getPoints());
+		removeDisplay(toolbar.getPoints());
+		toolbar.updatePoints(NUM_POINTS);
+		addDisplay(toolbar.getPoints());
 	}
 
 	/**
 	 *  Updates level feature of toolbar
 	 */
 	public void updateLevelText() {
-		removeDisplay(t.getLevel());
-		t.updateLevel(CURR_LEVEL);
-		addDisplay(t.getLevel());
+		removeDisplay(toolbar.getLevel());
+		toolbar.updateLevel(CURR_LEVEL);
+		addDisplay(toolbar.getLevel());
 	}
 
 	/**
@@ -239,44 +262,35 @@ public class SceneCtrl extends Driver{
 		}
 	} 
 	
+	public void resetLives() {
+		for(int i=0; i < lives.size(); i++) {
+			removeDisplay(lives.get(i).getDisplay());
+		}
+		lives.clear();
+	}
+
 	/**
 	 *  Initializes main bouncer
 	 */
 	public void addBouncer() {
-		bouncers.add(new Bouncer(MOVER_SPEED)); 
+		bouncers.add(new Bouncer(CURR_LEVEL * MOVER_SPEED)); 
 		bouncers.get(0).reset(SIZE, SIZE);
 		addDisplay(bouncers.get(0).getDisplay());
 	}
 
-	/**
-	 *  Clears level of all objects, resets main bouncer
-	 */
-	public void clearLevel() {
-		if(this.CURR_LEVEL > 1) {
-			for(Bouncer bouncer : bouncers) removeDisplay(bouncer.getDisplay());
-			bouncers.clear();
-			addBouncer();
-		}
-		hit_blocks.clear();
-		bounce_blocks.clear();
-		for(PowerUp p : powerUps) {
-			removeDisplay(p.getDisplay());
-		}
-		powerUps.clear();
-	}
-	
+
 	/**
 	 *  Creates powerUp once it's been intersected
 	 */
 	public void createPowerUp(double elapsedTime, PowerUp p) {
-		int num_lives = lives.size();
 		if(p.TYPE.equals(BALL_POWERUP)){
 			bouncers.add(new Bouncer(MOVER_SPEED));
 			bouncers.get(bouncers.size()-1).reset(SIZE, SIZE);
 			addDisplay(bouncers.get(bouncers.size()-1).DISPLAY);
 		}
 		else if(p.TYPE.equals(LIFE_POWERUP)) {
-			lives.add(new Life(MARGIN + 20 * lives.size(), SIZE - MARGIN));
+			System.out.println(lives.size());
+			lives.add(new Life(toolbar.getOffset() * lives.size(), SIZE - 30));
 			addDisplay(lives.get(lives.size()-1).getDisplay());
 		}
 		else if(p.TYPE.equals(PADDLE_POWERUP)) {
@@ -285,12 +299,13 @@ public class SceneCtrl extends Driver{
 			addDisplay(myPaddle.getDisplay());
 		}
 		else if(p.TYPE.equals(SNOWBALL) && lives.size() >= 1) {
-			num_lives--;
-			removeDisplay(lives.get(num_lives).getDisplay());
-			lives.remove(num_lives);
-			bouncers.get(0).reset(SIZE, SIZE);
+			removeDisplay(lives.get(lives.size()-1).getDisplay());
+			lives.remove(lives.size()-1);
 		}
-		else if(p.TYPE.equals(SNOWBALL)) screenText(LOSE);
+		else if(p.TYPE.equals(SNOWBALL)) {
+			clearDisplay();
+			screenText(LOSE);
+		}
 	}
 
 	/**
@@ -357,15 +372,22 @@ public class SceneCtrl extends Driver{
 		// Move bouncer, determine intersections
 		for(Bouncer bouncer : bouncers){
 			if(bouncer.isValid()) bouncer.bounce(elapsedTime, myPaddle.getX(), myPaddle.getY(), myPaddle.WIDTH);
-			if(!bouncer.inBounds() && lives.size() >=1) {
-				removeDisplay(lives.get(lives.size()-1).getDisplay());
-				lives.remove(lives.size()-1);
-				bouncers.clear();
-				addBouncer();
+			if(!bouncer.inBounds() && lives.size() >=1) removeLife();
+			else if (!bouncer.inBounds()) {
+				screenText(LOSE);
 			}
-			else if (!bouncer.inBounds()) screenText(LOSE);
 		}
 		checkPowerUps(elapsedTime);
+	}
+
+	/**
+	 *  Removes life 
+	 */
+	public void removeLife() {
+		removeDisplay(lives.get(lives.size()-1).getDisplay());
+		lives.remove(lives.size()-1);
+		bouncers.clear();
+		addBouncer();
 	}
 
 	/**
@@ -378,8 +400,10 @@ public class SceneCtrl extends Driver{
 			}
 		}
 		CURR_LEVEL++;
-		if(CURR_LEVEL < 3) createLevel();
-		else screenText(WIN);
+		if(CURR_LEVEL < 3) initLevel();
+		else {
+			screenText(WIN);
+		}
 		return true;
 	}
 }
