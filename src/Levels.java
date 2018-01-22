@@ -77,7 +77,6 @@ public class Levels extends Driver{
 
 		return blocks;
 	}
-	
 
 	public static double[][] BounceBlocksLevel2(){
 		double MULTIPLIER_X = .5;
@@ -85,7 +84,6 @@ public class Levels extends Driver{
 		blocks = new double[1][2];
 		blocks[0][0] = (SIZE - BLOCK_WIDTH) * MULTIPLIER_X ;
 		blocks[0][1] = SIZE * MULTIPLIER_Y;
-		System.out.println(blocks[0][0] + blocks[0][1]);
 		return blocks;
 	}
 	

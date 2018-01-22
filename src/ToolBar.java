@@ -18,6 +18,8 @@ public class ToolBar extends Driver {
 	private int MAX_LIVES = 3;
 	private Rectangle DISPLAY;
 	private int XOFFSET;
+	private final int POINTS_OFFSET;
+	private final int LEVEL_OFFSET;
 	private int YOFFSET;
 	private int LIVES_OFFSET;
 	private Text CURR_LEVEL_TXT;
@@ -37,13 +39,15 @@ public class ToolBar extends Driver {
 		
 		XOFFSET += LIVES.length()*SPACE + SPACE * MAX_LIVES;
 		this.POINTS_LABEL = makeText(POINTS, XOFFSET, YOFFSET);
-		XOFFSET += POINTS.length() * SPACE;
-		this.NUM_POINTS_TXT = makeText(Integer.toString(points), XOFFSET, YOFFSET);
+		XOFFSET += POINTS.length() * CHAR_SIZE + SPACE;
+		POINTS_OFFSET = XOFFSET;
+		this.NUM_POINTS_TXT = makeText(Integer.toString(points), POINTS_OFFSET, YOFFSET);
 		XOFFSET += SPACE;
 		this.LEVEL_LABEL = makeText(LEVEL, XOFFSET, YOFFSET);
-		XOFFSET += LEVEL.length()*CHAR_SIZE;
-		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), XOFFSET, YOFFSET);
-		XOFFSET += SPACE;
+		XOFFSET += LEVEL.length()*CHAR_SIZE + SPACE;
+		LEVEL_OFFSET = XOFFSET;
+		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), LEVEL_OFFSET, YOFFSET);
+		
 	}
 	
 	public Rectangle getBar() {
@@ -75,15 +79,15 @@ public class ToolBar extends Driver {
 	}
 	
 	public void updateLevel(int level) {
-		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), 10*SPACE, YOFFSET);
+		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), LEVEL_OFFSET, YOFFSET);
 	}
 	
 	public void updatePoints(int points) {
-		this.NUM_POINTS_TXT = makeText(Integer.toString(points), 10*SPACE, YOFFSET);
+		this.NUM_POINTS_TXT = makeText(Integer.toString(points), POINTS_OFFSET, YOFFSET);
 	}
 
-	private Text makeText(String in, double XOFFSET, int y){
-		Text t = new Text(XOFFSET, y, in);
+	private Text makeText(String in, double offset, int y){
+		Text t = new Text(offset, y, in);
 		t.setFill(Color.WHITE);
 		t.setFont(Font.font("Advent Pro", 15));
 		return t;

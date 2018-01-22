@@ -172,6 +172,7 @@ public class SceneCtrl extends Driver{
 		clearBlocks();
 		makeBlocks(levelcontroller.getHitCoords(), levelcontroller.getBounceCoords());
 		clearLevel();
+		updateLevelText();
 	}
 
 	/**
