@@ -393,7 +393,7 @@ public class SceneCtrl extends Driver{
 	public boolean handleWin() {
 		for(HitBlock block : hit_blocks) if(block.VALID == true) return false;
 		CURR_LEVEL++;
-		if(CURR_LEVEL < 3) initLevel();
+		if(CURR_LEVEL <= 3) initLevel();
 		else screenText(WIN);
 		return true;
 	}

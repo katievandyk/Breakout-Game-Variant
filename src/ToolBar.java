@@ -8,11 +8,9 @@ public class ToolBar extends Driver {
 	private String LIVES = "LIVES:";
 	private String POINTS = "POINTS:";
 	private String LEVEL = "LEVEL:";
-	
 	private Text LIVES_LABEL;
 	private Text POINTS_LABEL;
 	private Text LEVEL_LABEL;
-	
 	private int SPACE = 20;
 	private int CHAR_SIZE = 12;
 	private int MAX_LIVES = 3;
