@@ -15,6 +15,7 @@ public class Life extends Driver {
 		this.DISPLAY.setY(y);
 	}
 	
+	// Gets display for life
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
