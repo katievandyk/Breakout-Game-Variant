@@ -57,14 +57,17 @@ public class PowerUp extends Driver{
 		this.DISPLAY.setY(this.DISPLAY.getY() + 3/2*MOVER_SPEED * elapsedTime);
 	}
 
+	// Get display of power up
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
 	
+	// Get type of power up
 	public String getType() {
 		return this.TYPE;
 	}
 
+	// Check if power up is in bounds
 	public boolean checkBounds() {
 		if(this.DISPLAY.getY() >= SIZE) return false;
 		return true;

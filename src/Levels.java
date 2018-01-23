@@ -1,6 +1,9 @@
 public class Levels extends Driver{
 	private static double[][] blocks;
 
+	/**
+	 * Returns hit blocks for level 1
+	 */
 	public static double[][] HitBlocksLevel1(){
 		blocks = new double[28][2];
 		blocks[0][0] = X_MARGIN;
@@ -17,6 +20,9 @@ public class Levels extends Driver{
 		return blocks;	
 	}
 	
+	/**
+	 * Returns hit blocks for level 2
+	 */
 	public static double[][] HitBlocksLevel2(){
 		double MULTIPLIER_X = .75;
 		double MULTIPLIER_Y = .50;
@@ -40,6 +46,9 @@ public class Levels extends Driver{
 	
 	}
 	
+	/**
+	 * Returns hit blocks for level 3
+	 */
 	public static double[][] HitBlocksLevel3(){
 		double MULTIPLIER_X = .5;
 		double MULTIPLIER_Y = .5;
@@ -78,6 +87,9 @@ public class Levels extends Driver{
 		return blocks;
 	}
 
+	/**
+	 * Returns bounce blocks for level 2
+	 */
 	public static double[][] BounceBlocksLevel2(){
 		double MULTIPLIER_X = .5;
 		double MULTIPLIER_Y = .25;
@@ -87,6 +99,10 @@ public class Levels extends Driver{
 		return blocks;
 	}
 	
+	
+	/**
+	 * Returns bounce blocks for level 3
+	 */
 	public static double[][] BounceBlocksLevel3(){
 		double MULTIPLIER_X = 4.5;
 		double MULTIPLIER_Y = .5;

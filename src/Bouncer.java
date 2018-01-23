@@ -121,23 +121,28 @@ public class Bouncer extends Driver {
 		return true;
 	}
 	
+	// Returns if block is valid
 	public boolean isValid() {
 		return VALID;
 	}
 	
+	// Sets block to valid or not valid
 	public void setValid(boolean t) {
 		this.VALID = t;
 	}
 	
+	// Get image display of bouncer
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
 	
+	// Get top left x coord of bouncer
 	public double getX() {
 		X = this.DISPLAY.getX();
 		return X;
 	}
 	
+	// Get top left y coord of bouncer
 	public double getY() {
 		return this.DISPLAY.getY();
 	}

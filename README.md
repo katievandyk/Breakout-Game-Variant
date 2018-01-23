@@ -25,6 +25,6 @@ Blocks:
 Something Extra: Snowball falls- if intersect, lose a life
 
 Image Sources:
-http://clubpenguin.wikia.com/wiki/File:Puffle_Hotel_Spa_snowball_cover.gif
-https://plus.google.com/103802650377226624210
+http://clubpenguin.wikia.com/wiki/File:Puffle_Hotel_Spa_snowball_cover.gif (snowball.gif)
+https://plus.google.com/103802650377226624210 (mountain.gif)
 

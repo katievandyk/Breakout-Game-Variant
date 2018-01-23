@@ -10,7 +10,6 @@ public class Paddle extends Driver {
 	private int baseSpeed = MOVER_SPEED/4;
 	private static final int increment = 5;
 	private int currSpeed = baseSpeed;
-	
 	private Rectangle DISPLAY;
 	private double WIDTH;
 	private double HEIGHT;
@@ -43,26 +42,32 @@ public class Paddle extends Driver {
 		growCount++;
 	}
 	
+	// Get top left x coord of paddle
 	public double getX() {
 		return this.DISPLAY.getX();
 	}	
 	
+	// Get height of paddle
 	public double getHeight() {
 		return this.HEIGHT;
-	}
+	}	
 	
-	public double getWidth() {
-		return this.WIDTH;
-	}
-	
+	// Get top left y coord of paddle
 	public double getY() {
 		return this.DISPLAY.getY();
 	}
 	
+	// Get width of paddle
+	public double getWidth() {
+		return this.WIDTH;
+	}
+	
+	// Get display of paddle
 	public Rectangle getDisplay() {
 		return this.DISPLAY;
 	}
 	
+	// Get speed of paddle movement
 	public int getSpeed(KeyCode code) {
 		// Increment speed
 		if(code == prev) {	

@@ -15,6 +15,9 @@ public class BounceBlock extends Driver {
 		this.DISPLAY.setY(y);
 	}
 	
+	/**
+	 * Check if block intersects with bouncer
+	 */
 	public boolean intersect(double bX, double bY) {
 		double X = this.getX();
 		double Y = this.getY();
@@ -25,14 +28,17 @@ public class BounceBlock extends Driver {
 		return false;
 	}
 	
+	// Gets image display
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
 	
+	// Gets top left x coord of block
 	public double getX() {
 		return this.DISPLAY.getX();
 	}
 	
+	// Gets top left y coord of block
 	public double getY() {
 		return this.DISPLAY.getY();
 	}

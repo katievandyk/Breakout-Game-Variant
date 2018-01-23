@@ -33,13 +33,12 @@ public class Driver extends Application {
 	public static final String BALL_POWERUP = "newBall";
 	public static final String LIFE_POWERUP = "newLife";
 	public static final String PADDLE_POWERUP = "biggerPaddle";
-	public static final String SNOWBALL = "snowBall";
+	public static final String SNOWBALL = "snowBall"; 
 	public static final String BALL_POWERUP_IMG = "extraballpower.gif";
 	public static final String LIFE_POWERUP_IMG = "laserpower.gif";
-	public static final String SNOWBALL_IMG = "snowball.gif";
-	
+	public static final String SNOWBALL_IMG = "snowball.gif"; //source: http://clubpenguin.wikia.com/wiki/File:Puffle_Hotel_Spa_snowball_cover.gif
 	public static final String PADDLE_POWERUP_IMG = "sizepower.gif";
-	public static final String BACKGROUND_IMG = "mountain.gif";
+	public static final String BACKGROUND_IMG = "mountain.gif"; //source: https://plus.google.com/103802650377226624210
 	private SceneCtrl sceneController;
 	
 	/**

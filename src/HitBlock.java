@@ -96,26 +96,32 @@ public class HitBlock extends Driver {
 		return false;
 	}
 
+	// Get display of block
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
 
+	// Get top left x coord of block
 	public double getX() {
 		return this.DISPLAY.getX();
 	}
 
+	// Get top left y coord of block
 	public double getY() {
 		return this.DISPLAY.getY();
 	}
 	
+	// Get if block is valid
 	public boolean getValid() {
 		return this.VALID;
 	}
 	
+	// Set block to be valid/invalid
 	public void setValid(boolean v) {
 		this.VALID = v;
 	}
 	
+	// Get type of power up block contains
 	public String getPowerUp() {
 		return this.POWERUP;
 	}

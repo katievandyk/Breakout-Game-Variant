@@ -48,49 +48,57 @@ public class ToolBar extends Driver {
 		
 	}
 	
+	// Get background of toolbar
 	public Rectangle getBar() {
 		return this.DISPLAY;
 	}
 	
+	// Get points label of toolbar
 	public Text getPointsLabel() {
 		return this.POINTS_LABEL;
 	}
 	
+	// Get lives label of toolbar
 	public Text getLivesLabel() {
 		return this.LIVES_LABEL;
 	}
 	
+	// Get offset label of toolbar
 	public int getOffset() {
 		return this.LIVES_OFFSET;
 	}
 	
+	// Get level label of toolbar
 	public Text getLevelLabel() {
 		return this.LEVEL_LABEL;
 	}
 	
+	// Get points label of toolbar
 	public Text getPoints() {
 		return this.NUM_POINTS_TXT;
 	}
 	
+	// Get level of toolbar
 	public Text getLevel() {
 		return this.CURR_LEVEL_TXT;
 	}
 	
+	// Update level of toolbar
 	public void updateLevel(int level) {
 		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), LEVEL_OFFSET, YOFFSET);
 	}
 	
+	// Update points of toolbar
 	public void updatePoints(int points) {
 		this.NUM_POINTS_TXT = makeText(Integer.toString(points), POINTS_OFFSET, YOFFSET);
 	}
 
+	// Make text out of points/level values
 	private Text makeText(String in, double offset, int y){
 		Text t = new Text(offset, y, in);
 		t.setFill(Color.WHITE);
 		t.setFont(Font.font("Advent Pro", 15));
 		return t;
 	}
-
-	
 
 }
