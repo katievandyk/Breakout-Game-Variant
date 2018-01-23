@@ -58,13 +58,15 @@ public class Bouncer extends Driver {
 	 */
 	public void paddleBounce(double x, double x_SPEED, double pWIDTH) {
 		double ratio = x / pWIDTH;
+		double speedUp = 2;
 		// Send right
-		if(ratio > 4/5 && x_SPEED < 0){
-			this.X_SPEED = 2 * this.X_SPEED;
+		if(ratio > 2/3 && this.X_SPEED < 0){
+			this.X_SPEED = -speedUp * this.X_SPEED;
 		}
-		else if(ratio < 1/5 && x_SPEED > 0) {
-			this.X_SPEED = -2 * this.X_SPEED;
+		else if(ratio < 1/3 && this.X_SPEED > 0) {
+			this.X_SPEED = -speedUp * this.X_SPEED;
 		}
+
 		this.Y_SPEED = -this.Y_SPEED;
 	}
 
