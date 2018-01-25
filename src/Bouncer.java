@@ -71,34 +71,6 @@ public class Bouncer extends Driver {
 	}
 
 	/**
-	 * Check bouncer intersection with hit block
-	 */
-	public boolean intersect(HitBlock block) {
-		double X = block.getX();
-		double Y = block.getY();
-		double bX = this.getX();
-		double bY = this.getY();
-		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Check block intersection with bounce block
-	 */
-	public boolean intersect(BounceBlock block) {
-		double X = block.getX();
-		double Y = block.getY();
-		double bX = this.DISPLAY.getX();
-		double bY = this.DISPLAY.getY();
-		if(bX >= X && bX <= (X + BLOCK_HEIGHT) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Bounce off of block
 	 */
 	public void bounceBlocks(double elapsedTime) {

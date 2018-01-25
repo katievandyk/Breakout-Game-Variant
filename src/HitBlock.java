@@ -1,129 +1,77 @@
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-public class HitBlock extends Driver {
-
-	private ImageView DISPLAY;
-	private int numhits;
-	private double X;
-	private double Y;
-	private String POWERUP;
-	private boolean VALID;
+public class HitBlock extends Block {
+	
+	public static final String BLOCK_IMG = "brick1.gif";
+	public static final String BLOCK2_IMG = "brick2.gif";
 	private String[] availablePowerUps = {SNOWBALL, BALL_POWERUP, LIFE_POWERUP, PADDLE_POWERUP, null};
 
 	/**
-	 * Constructor, known power up
+	 * Block that can be hit one or multiple times
 	 */
-	public HitBlock (double x, double y, int nHits, String BLOCK_IMAGE, String powerUp){
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BLOCK_IMAGE));
-		this.DISPLAY = new ImageView(image);
-		this.DISPLAY.setX(x);
-		this.DISPLAY.setY(y);
-		this.numhits = nHits;
-		this.X = x;
-		this.Y = y;
-		this.POWERUP = powerUp;
-		this.VALID = true;
-	}
-	
-	
-	/**
-	 * Constructor, unknown power up
-	 */
-	public HitBlock (double x, double y, int i) {
-		String img;
-		int numhits;
-		if(i % 2 == 0) {
-			numhits = 2;
-			img = BLOCK2_IMG;
-		}
-		else {
-			numhits = 1;
-			img = BLOCK_IMG;
-		} 
-
-		java.util.Random random = new java.util.Random();
-		int r = random.nextInt(availablePowerUps.length);
-		
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(img));
-		this.DISPLAY = new ImageView(image);
-		this.DISPLAY.setX(x);
-		this.DISPLAY.setY(y);
-		this.numhits = numhits;
-		this.X = x;
-		this.Y = y;
-		this.POWERUP = availablePowerUps[r];
-		this.VALID = true;
-	}
-	
-	/**
-	 * Check that block can be removed from screen
-	 */
-	public boolean canRemove(Bouncer bouncer) {
-		return this.intersect(bouncer) && this.numhits == 1 && this.VALID;
+	public HitBlock (double x, double y){
+		super(x, y);
 	}
 
 	/**
-	 * Check that block can be hit, possibly removed
+	 * Check that block can be hit, but not removed
+	 * @param bouncer 		Instance of bouncer when block can be hit
 	 */
 	public boolean canHit(Bouncer bouncer) {
-		return this.intersect(bouncer) && this.VALID;	
+		return this.intersect(bouncer) && this.getValid() && this.getNumHits() > 1;
+	}
+	
+	/**
+	 * Check that bouncer can be removed from screen
+	 * @param bouncer 		Instance of bouncer when block is hit
+	 */
+	public boolean canRemove(Bouncer bouncer) {
+		return this.intersect(bouncer) && this.getValid() && this.getNumHits() == 1;
+	}
+	
+	/**
+	 * Remove block by setting it invalid, returning power up to drop
+	 */
+	public String Remove() {
+		this.setValid(false);
+		return this.getPowerUp();
+	}
+	
+	/**
+	 * Hit block by decreasing number of hits and changing image
+	 */
+	public void Hit() {
+		this.decreaseHits();
+		this.changeImage();
 	}
 
 	/**
 	 * Decrease number of hits left before removal
 	 */
-	public void decreaseHits(String newImage) {
-		this.numhits--;
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(newImage));
-		this.DISPLAY = new ImageView(image);
-		this.DISPLAY.setX(this.X);
-		this.DISPLAY.setY(this.Y);
+	private void decreaseHits() {
+		this.setNumHits(this.getNumHits() - 1);
 	}
-
+	
 	/**
-	 * Check if intersect with bouncer
+	 * Change the image of the block
 	 */
-	public boolean intersect(Bouncer bouncer) {
-		double X = this.DISPLAY.getX();
-		double Y = this.DISPLAY.getY();
-		double bX = bouncer.getX();
-		double bY = bouncer.getY();	
-
-		if(bX >= X && bX <= (X + BLOCK_WIDTH) && bY >= Y && bY <= (Y + BLOCK_HEIGHT)) {
-			return true;
+	private void changeImage() {
+		if(this.getNumHits() == 2) {
+			this.setDisplay(BLOCK2_IMG);
 		}
-		return false;
-	}
-
-	// Get display of block
-	public ImageView getDisplay() {
-		return this.DISPLAY;
-	}
-
-	// Get top left x coord of block
-	public double getX() {
-		return this.DISPLAY.getX();
-	}
-
-	// Get top left y coord of block
-	public double getY() {
-		return this.DISPLAY.getY();
+		else {
+			this.setDisplay(BLOCK_IMG);
+		}
 	}
 	
-	// Get if block is valid
-	public boolean getValid() {
-		return this.VALID;
-	}
-	
-	// Set block to be valid/invalid
-	public void setValid(boolean v) {
-		this.VALID = v;
-	}
-	
-	// Get type of power up block contains
-	public String getPowerUp() {
-		return this.POWERUP;
+	/**
+	 * Set unique features of hit block- power up, initial number of hits
+	 */
+	public void setFeatures(int numHits) {
+		// Use random number generator to determine power up
+		java.util.Random random = new java.util.Random();
+		int r = random.nextInt(availablePowerUps.length);
+		this.setPowerUp(availablePowerUps[r]);
+		this.setNumHits(numHits);
+		this.changeImage();
 	}
 }
 

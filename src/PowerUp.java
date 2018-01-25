@@ -5,6 +5,8 @@ public class PowerUp extends Driver{
 
 	private String TYPE;
 	private ImageView DISPLAY;
+	
+
 
 	/**
 	 * Constructor
@@ -72,4 +74,5 @@ public class PowerUp extends Driver{
 		if(this.DISPLAY.getY() >= SIZE) return false;
 		return true;
 	}
+	
 }

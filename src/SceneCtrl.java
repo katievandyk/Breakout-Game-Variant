@@ -194,12 +194,13 @@ public class SceneCtrl extends Driver{
 	 */
 	private void makeBlocks(double[][] hit_coords, double[][] bounce_coords) {
 		for(int i=0; i < hit_coords.length; i++) {
-			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1], i));
+			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1]));
+			hit_blocks.get(i).setFeatures(i % 2 + 1);
 			addDisplay(hit_blocks.get(i).getDisplay());
 		}
 		if(bounce_coords != null) {
 			for(int i=0; i < bounce_coords.length; i++) {
-				bounce_blocks.add(new BounceBlock(bounce_coords[i][0], bounce_coords[i][1], BOUNCEBLOCK_IMG));
+				bounce_blocks.add(new BounceBlock(bounce_coords[i][0], bounce_coords[i][1]));
 				addDisplay(bounce_blocks.get(i).getDisplay());
 			}
 		}
@@ -331,10 +332,9 @@ public class SceneCtrl extends Driver{
 		for(HitBlock block : hit_blocks) {
 			for(Bouncer bouncer : bouncers) {
 				if(block.canRemove(bouncer)) {
-					block.setValid(false);
 					removeDisplay(block.getDisplay());
 					updatePointsText();
-					powerUp = block.getPowerUp();
+					powerUp = block.Remove();
 					if(powerUp != null) {
 						powerUps.add(new PowerUp(powerUp));
 						powerUps.get(powerUps.size()-1).reset(block.getX(), block.getY());
@@ -344,7 +344,7 @@ public class SceneCtrl extends Driver{
 				}
 				else if(block.canHit(bouncer)) {	
 					removeDisplay(block.getDisplay());
-					block.decreaseHits(BLOCK_IMG);
+					block.Hit();
 					addDisplay(block.getDisplay());
 					bouncer.bounceBlocks(elapsedTime);
 				}
@@ -352,7 +352,7 @@ public class SceneCtrl extends Driver{
 		}
 		for(BounceBlock block : bounce_blocks) {
 			for(Bouncer bouncer : bouncers) {
-				if(block.intersect(bouncer.getX(), bouncer.getY())) {
+				if(block.intersect(bouncer)) {
 					bouncer.bounceBlocks(elapsedTime);
 				}
 			}

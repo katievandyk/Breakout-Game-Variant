@@ -1,6 +1,7 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,7 +17,6 @@ public class Driver extends Application {
 	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	public static final Paint BACKGROUND = Color.BLACK;
 	public static final String BOUNCER_IMG = "ball.gif";
-	public static final String BOUNCEBLOCK_IMG = "brick3.gif";
 	public static final String BLOCK_IMG = "brick1.gif";
 	public static final String BLOCK2_IMG = "brick2.gif";
 	public static final String LIFE_IMG = "laserpower.gif";
