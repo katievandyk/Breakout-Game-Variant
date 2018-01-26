@@ -23,20 +23,11 @@ Run this program using the Driver.java class, which contains the Main method.
 # Features 
 * Levels: Get harder by increasing ball speed, complicating formation
 
-* Power-ups:
-1. Green Ball- gives additional ball
-2. Red ball- grows paddle (only once)
-3. Blue ball- extra life
+* Power-ups: Green Ball (additional bouncer), Red ball (grows paddle), Blue Ball (gives extra life)
 
-* Paddle Abilities:
-1. Grows
-2. Ball bounces differently depending on section
-3. Goes faster as it moves in the same direction
+* Paddle Abilities: Grows, Ball bounces differently depending on sectioNn, Goes faster as it moves in the same direction
 
-* Blocks:
-1. Single-hit block
-2. Multi-hit block
-3. Bounce block
+* Blocks: Single-hit block, Multi-hit block, Bounce block
 
 * Something Extra: Snowball falls- if intersect, lose a life
 
