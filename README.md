@@ -1,6 +1,8 @@
 # First project for CompSci 308 Fall 2017
 Katherine Van Dyk
+
 January 15- 23, 2018
+
 20 Hours
 
 # Image Sources 
