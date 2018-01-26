@@ -15,6 +15,9 @@ public class Block extends Driver {
 
 	/**
 	 * Constructor for a block
+	 * Dependencies: Driver
+	 * Purpose: This class holds methods used by all blocks, including intersect and getting/setting coordinates
+	 * Why Well-Designed: This code is well-designed because it avoids duplication and uses inheritance to allow for code flexibility/reuse. 
 	 * 
 	 * @param x		Upper left x-coordinate of where block is to be placed
 	 * @param y		Upper left y-coordinate of where block is to be placed

@@ -10,6 +10,8 @@ public class HitBlock extends Block {
 	/**
 	 * Constructor for block that can be hit one or multiple times
 	 * Dependencies: Block, Driver
+	 * Purpose: HitBlock is a subclass of the Block class and creates a block that can be hit multiple times. Includes extra methods for block removal/power ups. 
+	 * Why Well-Designed: Reuses methods from block super-class and adds block-specific methods (removal, setPowerup) without code duplication. 
 	 * 
 	 * @author Katherine Van Dyk
 	 * @param x		x-coordinate on screen

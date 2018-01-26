@@ -3,6 +3,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * ToolBar object contains spacing/elements of toolbar to be displayed on screen
+ * Dependencies: Driver
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class ToolBar extends Driver {
 	
 	private String LIVES = "LIVES:";
@@ -24,7 +31,10 @@ public class ToolBar extends Driver {
 	private Text NUM_POINTS_TXT;
 
 	/**
-	 * Constructor
+	 * Constructor for Toolbar
+	 * 
+	 * @param points		Number of points to be displayed on screen
+	 * @param level		Current level to be displayed on screen
 	 */
 	public ToolBar(int points, int level) {
 		this.DISPLAY = new Rectangle(0, SIZE - X_MARGIN, SIZE, X_MARGIN);
@@ -48,52 +58,95 @@ public class ToolBar extends Driver {
 		
 	}
 	
-	// Get background of toolbar
+	/**
+	 * Returns rectangle (background of toolbar)
+	 * 
+	 * @return	Rectangle, background
+	 */
 	public Rectangle getBar() {
 		return this.DISPLAY;
 	}
 	
-	// Get points label of toolbar
+	/**
+	 * Returns points text 
+	 * 
+	 * @return Text		Current amt of points
+	 */
 	public Text getPointsLabel() {
 		return this.POINTS_LABEL;
 	}
 	
-	// Get lives label of toolbar
+	/**
+	 * Returns "LIVES:" label
+	 * 
+	 * @return Text		Label
+	 */
 	public Text getLivesLabel() {
 		return this.LIVES_LABEL;
 	}
 	
-	// Get offset label of toolbar
+	/**
+	 * Returns offset needed to display curr lives in right position
+	 * 
+	 * @return int		Spacing for lives display
+	 */
 	public int getOffset() {
 		return this.LIVES_OFFSET;
 	}
 	
-	// Get level label of toolbar
+	/**
+	 * Returns "LEVEL:" label
+	 * 
+	 * @return Text 		Label	
+	 */
 	public Text getLevelLabel() {
 		return this.LEVEL_LABEL;
 	}
 	
-	// Get points label of toolbar
+	/**
+	 * Returns current number of pts txt
+	 * 
+	 * @return	Text		Current num of pts
+	 */
 	public Text getPoints() {
 		return this.NUM_POINTS_TXT;
 	}
-	
-	// Get level of toolbar
+
+	/**
+	 * Returns current level
+	 * 
+	 * @return Level		Current level
+	 */
 	public Text getLevel() {
 		return this.CURR_LEVEL_TXT;
 	}
 	
-	// Update level of toolbar
+	/**
+	 * Updates level text
+	 * 
+	 * @param level		Level to display
+	 */
 	public void updateLevel(int level) {
 		this.CURR_LEVEL_TXT = makeText(Integer.toString(level), LEVEL_OFFSET, YOFFSET);
 	}
 	
-	// Update points of toolbar
+	/**
+	 * Updates points text
+	 * 
+	 * @param points		Points to display
+	 */
 	public void updatePoints(int points) {
 		this.NUM_POINTS_TXT = makeText(Integer.toString(points), POINTS_OFFSET, YOFFSET);
 	}
 
-	// Make text out of points/level values
+	/**
+	 * makes Text object in desired position
+	 * 
+	 * @param in			Text to be displayed
+	 * @param offset		X-offset of text
+	 * @param y			Y-position of text
+	 * @return Text		Text object to be displayed
+	 */
 	private Text makeText(String in, double offset, int y){
 		Text t = new Text(offset, y, in);
 		t.setFill(Color.WHITE);

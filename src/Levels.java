@@ -1,8 +1,17 @@
+/**
+ * Generates set of coordinates for each level
+ * Dependencies: Driver
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class Levels extends Driver{
 	private static double[][] blocks;
 
 	/**
-	 * Returns hit blocks for level 1
+	 * Returns hit block coords for level 1
+	 * 
+	 * @return double[][] 	
 	 */
 	public static double[][] HitBlocksLevel1(){
 		blocks = new double[28][2];
@@ -21,7 +30,9 @@ public class Levels extends Driver{
 	}
 	
 	/**
-	 * Returns hit blocks for level 2
+	 * Returns hit block coords for level 2
+	 * 
+	 * @return double[][] 	
 	 */
 	public static double[][] HitBlocksLevel2(){
 		double MULTIPLIER_X = .75;
@@ -47,7 +58,9 @@ public class Levels extends Driver{
 	}
 	
 	/**
-	 * Returns hit blocks for level 3
+	 * Returns hit block coords for level 3
+	 * 
+	 * @return double[][] 	
 	 */
 	public static double[][] HitBlocksLevel3(){
 		double MULTIPLIER_X = .5;
@@ -88,7 +101,9 @@ public class Levels extends Driver{
 	}
 
 	/**
-	 * Returns bounce blocks for level 2
+	 * Returns bounce block coords for level 2
+	 * 
+	 * @return double[][] 	
 	 */
 	public static double[][] BounceBlocksLevel2(){
 		double MULTIPLIER_X = .5;
@@ -101,7 +116,9 @@ public class Levels extends Driver{
 	
 	
 	/**
-	 * Returns bounce blocks for level 3
+	 * Returns bounce block coords for level 3
+	 * 
+	 * @return double[][] 	
 	 */
 	public static double[][] BounceBlocksLevel3(){
 		double MULTIPLIER_X = 4.5;

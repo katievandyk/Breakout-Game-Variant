@@ -7,6 +7,12 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Driver class for BreakOutGame
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class Driver extends Application {
 
 	public static final String TITLE = "Breakout";
@@ -42,6 +48,8 @@ public class Driver extends Application {
 	
 	/**
 	 * Initialize what will be displayed and how it will be updated.
+	 * 
+	 *  @param s		Application window
 	 */
 	@Override
 	public void start (Stage stage) {
@@ -57,7 +65,9 @@ public class Driver extends Application {
 	}
 
 	/**
-	 * What do to in each increment of time 
+	 * Determines game state for each instance of time
+	 * 
+	 * @param elapsedTime	Instance in time
 	 */
 	public void step (double elapsedTime) {
 		sceneController.checkKeys();
@@ -69,15 +79,21 @@ public class Driver extends Application {
 	}
 
 	/**
-	 * Convert string to image
+	 * Converts string to image
+	 * 
+	 * @param img 		String to be converted
+	 * @return Image		Image to be displayed
 	 */
 	public Image Image(String img) {
 		Image myImage = new Image(getClass().getClassLoader().getResourceAsStream(img));
 		return myImage;
 	}
 	
+	
 	/**
-	 * Start the program.
+	 * Launch the program
+	 * 
+	 * @param args
 	 */
 	public static void main (String[] args) {
 		launch(args);
