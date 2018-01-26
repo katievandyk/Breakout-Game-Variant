@@ -15,6 +15,7 @@ public class Paddle extends Driver {
 	private double HEIGHT;
 	public static final Paint PADDLE_COLOR = Color.AZURE;
 	
+	
     /**
      * Constructor
      */

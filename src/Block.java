@@ -2,8 +2,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * Block class that contains images/positions of blocks to be placed on screen, and methods to determine removal and power ups
- * 
+ * Block class is super class 
+ *
+ * @author student
+ *
  */
 public class Block extends Driver {
 	private ImageView DISPLAY;
@@ -15,8 +17,8 @@ public class Block extends Driver {
 
 	/**
 	 * Constructor for a block
-	 *@param x		Upper left x-coordinate of where block is to be placed
-	 *@param y		Upper left y-coordinate of where block is to be placed
+	 * @param x		Upper left x-coordinate of where block is to be placed
+	 * @param y		Upper left y-coordinate of where block is to be placed
 	 */
 	public Block (double x, double y){
 		this.POWERUP = null;
@@ -66,7 +68,8 @@ public class Block extends Driver {
 	}
 
 	/**
-	 * Returns upper left y-coordinate of block
+	 * 
+	 * @return Upper left y-coordinate of block
 	 */
 	public double getY() {
 		return this.Y;
