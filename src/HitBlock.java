@@ -11,6 +11,7 @@ public class HitBlock extends Block {
 		super(x, y);
 	}
 
+
 	/**
 	 * Check that block can be hit, but not removed
 	 * @param bouncer 		Instance of bouncer when block can be hit
