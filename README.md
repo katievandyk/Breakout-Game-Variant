@@ -3,8 +3,7 @@ Katherine Van Dyk
 January 15- 23, 2018
 20 Hours
 
-#Sources 
-Image Sources:
+# Image Sources 
 http://clubpenguin.wikia.com/wiki/File:Puffle_Hotel_Spa_snowball_cover.gif (snowball.gif)
 https://plus.google.com/103802650377226624210 (mountain.gif)
 
