@@ -1,13 +1,22 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * PowerUp object, falls from block and contains type that can be translated into powerUp if intersected by paddle
+ * Dependencies: Driver
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class PowerUp extends Driver{
 
 	private String TYPE;
 	private ImageView DISPLAY;
-
+	
 	/**
-	 * Constructor
+	 * PowerUp constructor
+	 * 
+	 * @param type	Type of powerUp
 	 */
 	public PowerUp(String type){
 		this.TYPE = type;
@@ -30,7 +39,13 @@ public class PowerUp extends Driver{
 	}
 
 	/**
-	 * Check if intersect with paddle
+	 * Check if powerUp intersects with paddle
+	 * 
+	 * @param padX		Top left x-coord of paddle
+	 * @param padY		Top left y-coord of paddle
+	 * @param pWIDTH		Width of paddle
+	 * @param pHEIGHT	Height of paddle
+	 * @return
 	 */
 	public boolean checkIntersect(double padX, double padY, double pWIDTH, double pHEIGHT) {
 		double bX = this.DISPLAY.getX();
@@ -43,7 +58,9 @@ public class PowerUp extends Driver{
 	}
 
 	/**
-	 * Set power up block position
+	 * Resets powerup to center of screen
+	 * 
+	 * @return double[][] 	
 	 */
 	public void reset(double x, double y) {
 		this.DISPLAY.setX(x);
@@ -51,23 +68,37 @@ public class PowerUp extends Driver{
 	}
 
 	/**
-	 * Move power up down screen
+	 * Moves power up down screen
+	 * 
+	 * @param elapsedTime	Instance of time
 	 */
 	public void move(double elapsedTime) {
 		this.DISPLAY.setY(this.DISPLAY.getY() + 3/2*MOVER_SPEED * elapsedTime);
 	}
 
-	// Get display of power up
+	/**
+	 * Returns image of power up
+	 * 
+	 * @return ImageView		Returns display of image	
+	 */
 	public ImageView getDisplay() {
 		return this.DISPLAY;
 	}
 	
-	// Get type of power up
+	/**
+	 * Returns type of power up
+	 * 
+	 * @return String
+	 */
 	public String getType() {
 		return this.TYPE;
 	}
 
-	// Check if power up is in bounds
+	/**
+	 * Checks if power up is within bounds of screen
+	 * 
+	 * @return boolean 	True if within bounds of screen, false otherwise 	
+	 */
 	public boolean checkBounds() {
 		if(this.DISPLAY.getY() >= SIZE) return false;
 		return true;

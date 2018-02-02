@@ -1,3 +1,10 @@
+/**
+ * Controls hitBlock and bounceBlock coordinates determined by current level
+ * Dependencies: Driver
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class LevelCtrl extends Driver {
 	
 	private double[][] hit_coords;
@@ -5,7 +12,9 @@ public class LevelCtrl extends Driver {
 	private int CURR_LEVEL;
 	
 	/**
-	 * Controls coordinates of level
+	 * Constructor for level controller
+	 * 
+	 * @param curr		Current level
 	 */
 	public LevelCtrl(int curr) {
 		this.CURR_LEVEL = curr;
@@ -14,7 +23,9 @@ public class LevelCtrl extends Driver {
 	}
 	
 	/**
-	 * Changes coordinates to input level, l
+	 * Changes level
+	 * 
+	 * @param l		Level to be changed to
 	 */
 	public void changeLevel(int l) {
 		this.CURR_LEVEL = l;
@@ -22,7 +33,7 @@ public class LevelCtrl extends Driver {
 	}
 
 	/**
-	 * Block that only bounces objects off of it
+	 * Updates hit_coords[] and bounce_block[] coords to match current level
 	 */
 	public void updateCoords() {
 		if(this.CURR_LEVEL == 1) {
@@ -43,17 +54,29 @@ public class LevelCtrl extends Driver {
 		}
 	}
 	
-	// Get coordinates of hit blocks
+	/**
+	 * Return coordinates of hit blocks
+	 * 
+	 * @return double	hitBlock coords [x,y]
+	 */
 	public double[][] getHitCoords(){
 		return this.hit_coords;
 	}
 	
-	// Get coordinates of bounce blocks
+	/**
+	 * Return coordinates of bounce blocks
+	 * 
+	 * @return double	bounceBlock coords [x,y]
+	 */
 	public double[][] getBounceCoords(){
 		return this.bounce_coords;
 	}
 	
-	// Returns current level
+	/**
+	 * Returns current level
+	 * 
+	 * @return int	Current level
+	 */
 	public int currLevel() {
 		return this.CURR_LEVEL;
 	}

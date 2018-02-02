@@ -11,6 +11,13 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ * Scene Controller controls current instance of game, including what to display, and how bouncer/blocks/paddle/powerUps interact
+ * Dependencies: Driver
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class SceneCtrl extends Driver{
 	protected ArrayList<Bouncer> bouncers = new ArrayList<Bouncer>();
 	private ArrayList<Life> lives = new ArrayList<Life>();
@@ -31,6 +38,11 @@ public class SceneCtrl extends Driver{
 	private ToolBar toolbar = new ToolBar(0, 1);
 	protected int NUM_POINTS;
 
+	/**
+	 * Constructor for scene controller
+	 * 
+	 * @param stage		Application window
+	 */
 	public SceneCtrl(Stage stage) {
 		this.myScene = null;
 		this.myStage = stage;
@@ -39,7 +51,7 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 * Constructor
+	 * Creates new scene
 	 */
 	public void setScene() {
 		this.myScene = new Scene(root, SIZE, SIZE);
@@ -59,7 +71,12 @@ public class SceneCtrl extends Driver{
 		myScene.setOnKeyPressed(f -> checkKey(f.getCode()));
 	}
 
-	public void checkKey(KeyCode code) {
+	/**
+	 * Helper method to update scene based on key pressed
+	 * 
+	 * @param code	KeyCode of key pressed
+	 */
+	private void checkKey(KeyCode code) {
 		if (code == KeyCode.RIGHT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() + myPaddle.getSpeed(code));
 		else if (code == KeyCode.LEFT)	myPaddle.getDisplay().setX(myPaddle.getDisplay().getX() - myPaddle.getSpeed(code));
 		else if (code == KeyCode.ENTER) {
@@ -91,37 +108,57 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 * Removes images, rectangles, and text from screen 
+	 * Removes specific image from display
+	 * 
+	 * @param image		Image to be removed
 	 */
 	public void removeDisplay(ImageView image) {
 		root.getChildren().remove(image);
 	}
 
+	/**
+	 * Removes specific text from display
+	 * 
+	 * @param text		Text to be removed
+	 */
 	public void removeDisplay(Text image) {
 		root.getChildren().remove(image);
 	}
 
+	/**
+	 * Removes specific rectangle from display
+	 * 
+	 * @param image		Rectangle to be removed
+	 */
 	public void removeDisplay(Rectangle image) {
 		root.getChildren().remove(image);
 	}
 
 	/**
-	 * Adds images, rectangles, and text to screen 
+	 * Adds specific image to display
 	 */
 	public void addDisplay(ImageView image) {
 		root.getChildren().add(image);
 	}
 
+	/**
+	 * Adds specific text to display
+	 */
 	public void addDisplay(Text t) {
 		root.getChildren().add(t);
 	}
 
+	/**
+	 * Adds specific rectangle to display
+	 */
 	public void addDisplay(Rectangle image) {
 		root.getChildren().add(image);
 	}
 
 	/**
 	 * Returns current level
+	 * 
+	 * @return int 	Current level of game
 	 */
 	public int getLevel() {
 		return CURR_LEVEL;
@@ -135,7 +172,9 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 * Returns win, lose and start screens
+	 * Creates a screen with a rectangle background and text s
+	 * 
+	 * @param s		Text to be added to screen
 	 */
 	public void screenText(String s) {
 		Text t;
@@ -190,16 +229,20 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 * Makes block objects from coordinates
+	 * Makes hit/bounce blocks from a set of input coordinates
+	 * 
+	 * @param hit_coords		x/y coordinates of hit blocks
+	 * @param bounce_coords	x/y coordinates of bounce blocks
 	 */
 	private void makeBlocks(double[][] hit_coords, double[][] bounce_coords) {
 		for(int i=0; i < hit_coords.length; i++) {
-			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1], i));
+			hit_blocks.add(new HitBlock(hit_coords[i][0], hit_coords[i][1]));
+			hit_blocks.get(i).setFeatures(i % 2 + 1);
 			addDisplay(hit_blocks.get(i).getDisplay());
 		}
 		if(bounce_coords != null) {
 			for(int i=0; i < bounce_coords.length; i++) {
-				bounce_blocks.add(new BounceBlock(bounce_coords[i][0], bounce_coords[i][1], BOUNCEBLOCK_IMG));
+				bounce_blocks.add(new BounceBlock(bounce_coords[i][0], bounce_coords[i][1]));
 				addDisplay(bounce_blocks.get(i).getDisplay());
 			}
 		}
@@ -248,6 +291,8 @@ public class SceneCtrl extends Driver{
 
 	/**
 	 *  Initializes lives list/tool bar feature
+	 *  
+	 *  @param x 	X-offset for where lives should be placed on screen
 	 */
 	public void initializeLives(int x) {
 		for(int i=0; i < 3; i++) {
@@ -277,7 +322,10 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 *  Creates powerUp once it's been intersected
+	 * Creates power up based on specific type
+	 * 
+	 * @param elapsedTime	Specific instance of times
+	 * @param p				Type of powerup
 	 */
 	public void createPowerUp(double elapsedTime, PowerUp p) {
 		if(p.getType().equals(BALL_POWERUP)){
@@ -305,6 +353,8 @@ public class SceneCtrl extends Driver{
 
 	/**
 	 *  Checks for intersections with any falling power ups
+	 *  
+	 *  @param elapsedTime	Instance of time
 	 */
 	public void checkPowerUps(double elapsedTime) {
 		ArrayList<PowerUp> toRemove = new ArrayList<PowerUp>();
@@ -324,6 +374,8 @@ public class SceneCtrl extends Driver{
 
 	/**
 	 *  Removes/updates any blocks that are hit
+	 *  
+	 *  @param elapsedTime	Instance of time
 	 */
 	public void killBlocks(double elapsedTime) {
 		String powerUp = null;
@@ -331,10 +383,9 @@ public class SceneCtrl extends Driver{
 		for(HitBlock block : hit_blocks) {
 			for(Bouncer bouncer : bouncers) {
 				if(block.canRemove(bouncer)) {
-					block.setValid(false);
 					removeDisplay(block.getDisplay());
 					updatePointsText();
-					powerUp = block.getPowerUp();
+					powerUp = block.Remove();
 					if(powerUp != null) {
 						powerUps.add(new PowerUp(powerUp));
 						powerUps.get(powerUps.size()-1).reset(block.getX(), block.getY());
@@ -344,7 +395,7 @@ public class SceneCtrl extends Driver{
 				}
 				else if(block.canHit(bouncer)) {	
 					removeDisplay(block.getDisplay());
-					block.decreaseHits(BLOCK_IMG);
+					block.Hit();
 					addDisplay(block.getDisplay());
 					bouncer.bounceBlocks(elapsedTime);
 				}
@@ -352,7 +403,7 @@ public class SceneCtrl extends Driver{
 		}
 		for(BounceBlock block : bounce_blocks) {
 			for(Bouncer bouncer : bouncers) {
-				if(block.intersect(bouncer.getX(), bouncer.getY())) {
+				if(block.intersect(bouncer)) {
 					bouncer.bounceBlocks(elapsedTime);
 				}
 			}
@@ -361,6 +412,8 @@ public class SceneCtrl extends Driver{
 
 	/**
 	 *  Moves bouncer and powerUps
+	 *  
+	 *  @param elapsedTime	Instance of time
 	 */
 	public void move(double elapsedTime) {
 		// Update bouncers
@@ -385,7 +438,9 @@ public class SceneCtrl extends Driver{
 	}
 
 	/**
-	 *  Checks for win
+	 * Checks for win
+	 * 
+	 * @return boolean	True if win, false otherwise
 	 */
 	public boolean handleWin() {
 		for(HitBlock block : hit_blocks) if(block.getValid() == true) return false;
@@ -396,7 +451,9 @@ public class SceneCtrl extends Driver{
 	}
 	
 	/**
-	 *  Checks for loss
+	 * Checks for loss
+	 * 
+	 * @return boolean 	True if loss, false otherwise
 	 */
 	public boolean handleLose() {
 		for(Bouncer bouncer : bouncers) {

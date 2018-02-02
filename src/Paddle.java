@@ -3,6 +3,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Paddle object which moves along bottom of screen, intersects with bouncer/power ups
+ * Dependencies: Driver
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class Paddle extends Driver {
 	
 	private int growCount;
@@ -15,8 +22,14 @@ public class Paddle extends Driver {
 	private double HEIGHT;
 	public static final Paint PADDLE_COLOR = Color.AZURE;
 	
+	
     /**
-     * Constructor
+     * Constructor for paddle object
+     * 
+     * @param x			X-coord for top left of paddle
+     * @param y			Y-coord for top left of paddle
+     * @param width		Width of paddle rectangle
+     * @param height		Height of paddle rectangle
      */
 	public Paddle(int x, int y, int width, int height) {
 		this.DISPLAY = new Rectangle(x, y, width, height);
@@ -26,7 +39,7 @@ public class Paddle extends Driver {
 	}
 
 	/**
-	 * Grow power up
+	 *  Grows paddle up size (power up)
 	 */
 	public void Grow() {
 		double width = this.WIDTH;
@@ -42,39 +55,62 @@ public class Paddle extends Driver {
 		growCount++;
 	}
 	
-	// Get top left x coord of paddle
+	/**
+	 * Get top left x-coord of paddle
+	 * 
+	 * @return double 	Top left x-coord
+	 */
 	public double getX() {
 		return this.DISPLAY.getX();
 	}	
 	
-	// Get height of paddle
+	/**
+	 * Returns height of paddle
+	 * 
+	 * @return double	Paddle height	
+	 */
 	public double getHeight() {
 		return this.HEIGHT;
 	}	
 	
-	// Get top left y coord of paddle
-	public double getY() {
-		return this.DISPLAY.getY();
-	}
-	
-	// Get width of paddle
+	/**
+	 * Returns width of paddle
+	 * 
+	 * @return double	Paddle width
+	 */
 	public double getWidth() {
 		return this.WIDTH;
 	}
 	
-	// Get display of paddle
+	/**
+	 * Returns top left y-coord of paddle
+	 * 
+	 * @return double 	Top left y-coord
+	 */
+	public double getY() {
+		return this.DISPLAY.getY();
+	}
+	
+	/**
+	 * Returns display (rectangle) of paddle
+	 * 
+	 * @return Rectangle		Display of paddle
+	 */
 	public Rectangle getDisplay() {
 		return this.DISPLAY;
 	}
 	
-	// Get speed of paddle movement
+	/**
+	 * Returns speed of paddle (increments if paddle moves in the same direction)
+	 * 
+	 * @param code	Paddle movement
+	 * @return int	Speed of paddle
+	 */
 	public int getSpeed(KeyCode code) {
-		// Increment speed
 		if(code == prev) {	
 			currSpeed = currSpeed + increment;
 			return currSpeed;
 		}
-		// Reset speed
 		else {
 			prev = code;
 			currSpeed = baseSpeed;
